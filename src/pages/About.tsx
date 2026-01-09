@@ -52,18 +52,21 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-start">
             <div>
-              <div className="bg-gradient-to-br from-gray-100 to-gray-50 rounded-2xl p-8 h-full">
-                <div className="w-32 h-32 bg-gradient-to-br from-[#0A2A43] to-[#0A2A43]/80 rounded-full mx-auto mb-6 flex items-center justify-center">
-                  <span className="text-[#C9A227] text-6xl font-bold">RO</span>
-                </div>
-                <div className="text-center">
-                  <h2 className="text-2xl font-bold text-[#0A2A43] mb-2">Ronald Obal</h2>
-                  <p className="text-[#C9A227] font-semibold mb-4">MEAL Manager | MEARL Specialist</p>
-                  <div className="space-y-2 text-gray-600">
-                    <p>📍 Gulu & Kampala, Uganda</p>
-                    <p>🌐 English, Luo</p>
-                    <p>📧 ronaldobal20@gmail.com</p>
-                    <p>📱 +256 776 280 494</p>
+              <div className="bg-gradient-to-br from-gray-100 to-gray-50 rounded-2xl p-8 h-full bg-cover bg-center bg-no-repeat relative" style={{ backgroundImage: 'url("/M&E collab.png")' }}>
+                <div className="absolute inset-0 bg-black bg-opacity-40 rounded-2xl"></div>
+                <div className="relative z-10">
+                  <div className="w-32 h-32 rounded-full mx-auto mb-6 overflow-hidden">
+                    <img src="/Logo1.png" alt="Ronald Obal" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold text-white mb-2">Ronald Obal</h2>
+                    <p className="text-[#C9A227] font-semibold mb-4">MEAL Manager | MEARL Specialist</p>
+                    <div className="space-y-2 text-white">
+                      <p>📍 Gulu & Kampala, Uganda</p>
+                      <p>🌐 English, Luo</p>
+                      <p>📧 ronaldobal20@gmail.com</p>
+                      <p>📱 +256 776 280 494</p>
+                    </div>
                   </div>
                 </div>
               </div>

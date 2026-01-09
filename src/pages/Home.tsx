@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import { BarChart3, TrendingUp, Users, FileText, ArrowRight, Award } from 'lucide-react';
+import CountUp from 'react-countup';
 
 export default function Home() {
   const stats = [
-    { label: 'Years Experience', value: '2+' },
-    { label: 'Projects Completed', value: '20+' },
-    { label: 'Organizations Served', value: '10+' },
-    { label: 'Lives Impacted', value: '1000+' },
+    { label: 'Years Experience', value: 2 },
+    { label: 'Projects Completed', value: 20 },
+    { label: 'Organizations Served', value: 10 },
+    { label: 'Lives Impacted', value: 1000 },
   ];
 
   const highlights = [
@@ -80,7 +81,7 @@ export default function Home() {
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-4xl md:text-5xl font-bold text-[#C9A227] mb-2">
-                  {stat.value}
+                  <CountUp end={stat.value} duration={2} suffix="+" />
                 </div>
                 <div className="text-gray-600 font-medium">{stat.label}</div>
               </div>
@@ -121,7 +122,7 @@ export default function Home() {
             <div className="max-w-3xl">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">Currently Serving as MEAL Manager</h2>
               <p className="text-xl text-gray-200 mb-6">
-                Leading monitoring, evaluation, accountability and learning at Mouthpiece Initiative for Mental Health and Addiction (MIMHA) — strengthening mental health program systems across Uganda.
+                Leading monitoring, evaluation, accountability and learning at Mouthpiece Initiative for Mental Health and Addiction (MIMHA) strengthening mental health program systems across Uganda.
               </p>
               <Link
                 to="/about"

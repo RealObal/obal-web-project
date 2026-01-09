@@ -9,9 +9,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xl font-bold text-[#C9A227] mb-4">
-              Ronald Obal
-            </h3>
+            <div className="mb-4">
+              <img src="/Logo2.png" alt="Ronald Obal Logo" className="h-16 w-auto opacity-90" />
+            </div>
             <p className="text-gray-300 mb-4">
               MEAL Manager specializing in monitoring, evaluation, accountability,
               and learning systems for social impact programs.
