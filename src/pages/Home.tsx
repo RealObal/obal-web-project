@@ -35,6 +35,12 @@ export default function Home() {
 
   return (
     <div>
+      <Helmet>
+        <title>Ronald Obal - MEAL Manager & MEARL Specialist | Evidence-Based Systems for Social Impact</title>
+        <meta name="description" content="Ronald Obal is a MEAL Manager and MEARL Specialist designing evidence-based systems for monitoring, evaluation, accountability, and learning in mental health, child protection, and community development." />
+        <link rel="canonical" href="https://ronaldobal.com/" />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       <section className="relative bg-gradient-to-br from-[#0A2A43] via-[#0A2A43] to-[#0A2A43]/90 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-10 w-72 h-72 bg-[#C9A227] rounded-full blur-3xl"></div>

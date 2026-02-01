@@ -1,5 +1,6 @@
 import { Workflow, BarChart3, Database, LineChart, FileText, Users, Settings, GraduationCap, Laptop, BookOpen, Brain, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 export default function Services() {
   const services = [
@@ -73,6 +74,12 @@ export default function Services() {
 
   return (
     <div>
+      <Helmet>
+        <title>Ronald Obal - MEAL Services | Monitoring, Evaluation, Accountability & Learning Solutions</title>
+        <meta name="description" content="Comprehensive MEAL services including system design, surveys, data analysis, evaluations, and capacity building for mental health, child protection, and community development programs." />
+        <link rel="canonical" href="https://ronaldobal.com/services" />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       <section className="bg-gradient-to-br from-[#0A2A43] to-[#0A2A43]/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">

@@ -1,4 +1,5 @@
 import { GraduationCap, Briefcase, Heart, Globe, CheckCircle } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 export default function About() {
   const skills = [

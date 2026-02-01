@@ -1,40 +1,36 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Calendar, Tag, ArrowRight } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { BlogPost } from '../types';
 
 export default function Blog() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [error, setError] = useState<string | null>(null);
+  const [expandedPosts, setExpandedPosts] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetchPosts();
   }, []);
 
+  // Fetch all blog posts from the 'blogs' table, ordered by created_at descending
   const fetchPosts = async () => {
     try {
+      setError(null); // Reset error state before fetching
       const { data, error } = await supabase
-        .from('blog_posts')
+        .from('blog_posts') // Table name in Supabase
         .select('*')
-        .order('published_date', { ascending: false });
+        .order('created_at', { ascending: false }); // Order by created_at as specified
 
       if (error) throw error;
       setPosts(data || []);
     } catch (error) {
       console.error('Error fetching posts:', error);
+      setError(error instanceof Error ? error.message : 'An error occurred while fetching posts');
     } finally {
       setLoading(false);
     }
   };
-
-  const categories = ['All', ...Array.from(new Set(posts.map((p) => p.category)))];
-
-  const filteredPosts =
-    selectedCategory === 'All'
-      ? posts
-      : posts.filter((p) => p.category === selectedCategory);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -43,6 +39,38 @@ export default function Blog() {
       month: 'long',
       day: 'numeric',
     });
+  };
+
+  // Check if content contains HTML formatting
+  const isHTML = (content: string) => content.includes('<');
+
+  // Toggle expanded state for a post
+  const toggleExpanded = (postId: string) => {
+    setExpandedPosts(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(postId)) {
+        newSet.delete(postId);
+      } else {
+        newSet.add(postId);
+      }
+      return newSet;
+    });
+  };
+
+  // Get truncated content (first 200 characters or first paragraph)
+  const getTruncatedContent = (content: string) => {
+    if (isHTML(content)) {
+      // For HTML, strip tags and truncate
+      const stripped = content.replace(/<[^>]*>/g, '');
+      return stripped.length > 200 ? stripped.substring(0, 200) + '...' : stripped;
+    } else {
+      // For plain text, truncate by characters or first paragraph
+      const paragraphs = content.split('\n\n');
+      if (paragraphs[0].length > 200) {
+        return paragraphs[0].substring(0, 200) + '...';
+      }
+      return paragraphs[0];
+    }
   };
 
   return (
@@ -58,81 +86,87 @@ export default function Blog() {
         </div>
       </section>
 
-      <section className="py-12 bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap gap-3">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full font-medium transition-all ${
-                  selectedCategory === category
-                    ? 'bg-[#C9A227] text-[#0A2A43]'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
             <div className="text-center py-12">
               <div className="inline-block w-12 h-12 border-4 border-[#C9A227] border-t-transparent rounded-full animate-spin"></div>
               <p className="mt-4 text-gray-600">Loading articles...</p>
             </div>
-          ) : filteredPosts.length === 0 ? (
+          ) : error ? (
             <div className="text-center py-12">
-              <p className="text-xl text-gray-600">
-                No articles found in this category.
-              </p>
+              <p className="text-xl text-red-600">Error: {error}</p>
+              <button
+                onClick={fetchPosts}
+                className="mt-4 px-4 py-2 bg-[#C9A227] text-[#0A2A43] rounded-lg font-semibold hover:bg-[#C9A227]/90 transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-xl text-gray-600">No articles found.</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map((post) => (
+            <div className="space-y-12">
+              {/* Optional performance improvement: For large number of posts, consider implementing pagination or "Load More" functionality */}
+              {posts.map((post) => (
                 <article
                   key={post.id}
-                  className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-all transform hover:-translate-y-1"
+                  className="bg-white rounded-xl shadow-sm overflow-hidden p-8"
                 >
-                  <div className="h-48 overflow-hidden bg-gray-200">
-                    <img
-                      src={post.image_url || 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg'}
-                      alt={post.title}
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="flex items-center text-sm text-gray-500 mb-4">
+                    <Calendar size={16} className="mr-2" />
+                    {formatDate(post.created_at)}
                   </div>
 
-                  <div className="p-6">
-                    <div className="flex items-center space-x-4 text-sm text-gray-500 mb-3">
-                      <span className="flex items-center">
-                        <Calendar size={14} className="mr-1" />
-                        {formatDate(post.published_date)}
-                      </span>
-                      <span className="flex items-center">
-                        <Tag size={14} className="mr-1" />
-                        {post.category}
-                      </span>
-                    </div>
+                  <h2 className="text-2xl font-bold text-[#0A2A43] mb-6">
+                    {post.title}
+                  </h2>
 
-                    <h2 className="text-xl font-bold text-[#0A2A43] mb-3 line-clamp-2">
-                      {post.title}
-                    </h2>
-
-                    <p className="text-gray-600 mb-4 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-
-                    <Link
-                      to={`/blog/${post.slug}`}
-                      className="inline-flex items-center text-[#C9A227] font-semibold hover:underline"
-                    >
-                      Read More
-                      <ArrowRight className="ml-2" size={16} />
-                    </Link>
+                  {/* Render content: Show truncated version initially, full content when expanded */}
+                  <div className="prose prose-lg max-w-none text-gray-700">
+                    {expandedPosts.has(post.id) ? (
+                      // Full content when expanded
+                      <>
+                        {isHTML(post.content) ? (
+                          <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                        ) : (
+                          <div>
+                            {post.content.split('\n\n').map((paragraph, index) => (
+                              <p key={index} className="mb-4 leading-relaxed">
+                                {paragraph}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+                        <button
+                          onClick={() => toggleExpanded(post.id)}
+                          className="mt-4 text-[#C9A227] font-semibold hover:underline"
+                        >
+                          Read Less
+                        </button>
+                      </>
+                    ) : (
+                      // Truncated content with Read More button
+                      <>
+                        <div>
+                          {isHTML(post.content) ? (
+                            <div dangerouslySetInnerHTML={{ __html: getTruncatedContent(post.content) }} />
+                          ) : (
+                            <p className="mb-4 leading-relaxed">
+                              {getTruncatedContent(post.content)}
+                            </p>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => toggleExpanded(post.id)}
+                          className="mt-4 text-[#C9A227] font-semibold hover:underline"
+                        >
+                          Read More
+                        </button>
+                      </>
+                    )}
                   </div>
                 </article>
               ))}
