@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { BarChart3, TrendingUp, Users, FileText, ArrowRight, Award } from 'lucide-react';
 import CountUp from 'react-countup';
+import { Helmet } from 'react-helmet-async';
 
 export default function Home() {
   const stats = [
