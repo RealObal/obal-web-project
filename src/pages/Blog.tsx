@@ -1,179 +1,133 @@
 import { useState, useEffect } from 'react';
-import { Calendar } from 'lucide-react';
-import { supabase } from '../lib/supabase';
-import { BlogPost } from '../types';
+import { Calendar, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { createClient } from '@sanity/client';
+import { PortableText } from '@portabletext/react'; 
+import imageUrlBuilder from '@sanity/image-url';
+
+const sanity = createClient({
+  projectId: 'khbx2r3z',
+  dataset: 'blog',
+  useCdn: true,
+  apiVersion: '2026-02-26',
+});
+
+const builder = imageUrlBuilder(sanity);
+const urlFor = (source: any) => builder.image(source);
+
+const blogComponents = {
+  block: {
+    h1: ({children}: any) => <h1 className="text-3xl font-bold mt-8 mb-4 text-[#0A2A43]">{children}</h1>,
+    h2: ({children}: any) => <h2 className="text-2xl font-bold mt-8 mb-4 text-[#0A2A43]">{children}</h2>,
+    h3: ({children}: any) => <h3 className="text-xl font-bold mt-6 mb-3 text-[#0A2A43]">{children}</h3>,
+    // ADDED text-justify HERE
+    normal: ({children}: any) => <p className="mb-4 text-gray-700 leading-relaxed text-justify">{children}</p>,
+  },
+  list: {
+    bullet: ({children}: any) => <ul className="list-disc ml-6 mb-6 space-y-2 text-gray-700 text-justify">{children}</ul>,
+    number: ({children}: any) => <ol className="list-decimal ml-6 mb-6 space-y-2 text-gray-700 text-justify">{children}</ol>,
+  },
+  marks: {
+    bold: ({children}: any) => <strong className="font-bold text-gray-900">{children}</strong>,
+    link: ({value, children}: any) => (
+      <a href={value?.href} target="_blank" rel="noopener noreferrer" className="text-[#C9A227] hover:underline font-medium">
+        {children} <ExternalLink size={14} className="inline mb-1" />
+      </a>
+    ),
+  },
+};
 
 export default function Blog() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [expandedPosts, setExpandedPosts] = useState<Set<string>>(new Set());
+  const [expandedPosts, setExpandedPosts] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    fetchPosts();
+    const query = `*[_type == "post"] | order(publishedAt desc) { 
+      _id, 
+      title, 
+      mainImage, 
+      body, 
+      "created_at": _createdAt,
+      "authorName": author->name,
+      "categories": categories[]->title
+    }`;
+    
+    sanity.fetch(query).then((data) => {
+      setPosts(data);
+      setLoading(false);
+    });
   }, []);
 
-  // Fetch all blog posts from the 'blogs' table, ordered by created_at descending
-  const fetchPosts = async () => {
-    try {
-      setError(null); // Reset error state before fetching
-      const { data, error } = await supabase
-        .from('blog_posts') // Table name in Supabase
-        .select('*')
-        .order('created_at', { ascending: false }); // Order by created_at as specified
-
-      if (error) throw error;
-      setPosts(data || []);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-      setError(error instanceof Error ? error.message : 'An error occurred while fetching posts');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  // Check if content contains HTML formatting
-  const isHTML = (content: string) => content.includes('<');
-
-  // Toggle expanded state for a post
-  const toggleExpanded = (postId: string) => {
-    setExpandedPosts(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(postId)) {
-        newSet.delete(postId);
-      } else {
-        newSet.add(postId);
-      }
-      return newSet;
-    });
-  };
-
-  // Get truncated content (first 200 characters or first paragraph)
-  const getTruncatedContent = (content: string) => {
-    if (isHTML(content)) {
-      // For HTML, strip tags and truncate
-      const stripped = content.replace(/<[^>]*>/g, '');
-      return stripped.length > 200 ? stripped.substring(0, 200) + '...' : stripped;
-    } else {
-      // For plain text, truncate by characters or first paragraph
-      const paragraphs = content.split('\n\n');
-      if (paragraphs[0].length > 200) {
-        return paragraphs[0].substring(0, 200) + '...';
-      }
-      return paragraphs[0];
-    }
+  const toggleExpand = (id: string) => {
+    setExpandedPosts(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
   return (
-    <div>
-      <section className="bg-gradient-to-br from-[#0A2A43] to-[#0A2A43]/90 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Blog</h1>
-            <p className="text-xl text-gray-200 leading-relaxed">
-              Insights on monitoring, evaluation, accountability, learning, and social impact programming from the field.
-            </p>
-          </div>
+    <div className="min-h-screen bg-gray-50 pb-20">
+      <section className="bg-[#0A2A43] text-white py-20 text-center">
+        <div className="max-w-4xl mx-auto px-4">
+          <h1 className="text-4xl font-bold mb-4 text-[#C9A227]">MEAL Insights & Field Notes</h1>
+          <p className="text-xl text-gray-300">Evidence-based lessons from the field</p>
         </div>
       </section>
 
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="inline-block w-12 h-12 border-4 border-[#C9A227] border-t-transparent rounded-full animate-spin"></div>
-              <p className="mt-4 text-gray-600">Loading articles...</p>
-            </div>
-          ) : error ? (
-            <div className="text-center py-12">
-              <p className="text-xl text-red-600">Error: {error}</p>
-              <button
-                onClick={fetchPosts}
-                className="mt-4 px-4 py-2 bg-[#C9A227] text-[#0A2A43] rounded-lg font-semibold hover:bg-[#C9A227]/90 transition-colors"
+      <div className="max-w-3xl mx-auto mt-12 px-4">
+        {loading ? (
+          <div className="text-center py-20"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#C9A227] mx-auto"></div></div>
+        ) : posts.map((post) => {
+          const isExpanded = expandedPosts[post._id];
+          
+          return (
+            <article key={post._id} className="bg-white p-8 md:p-12 rounded-2xl shadow-md border border-gray-100 mb-12 transition-all">
+              {post.mainImage && (
+                <img src={urlFor(post.mainImage).url()} alt={post.title} className="w-full h-72 object-cover rounded-xl mb-8 shadow-sm" />
+              )}
+              
+              {/* Date and Author Stack */}
+              <div className="space-y-1 mb-6 text-sm">
+                <div className="flex items-center text-gray-500 uppercase tracking-wider font-semibold">
+                  {new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                </div>
+                <div className="flex items-center text-[#0A2A43]">
+                  <span className="font-bold mr-1 text-gray-500 italic text-xs">Author:</span>
+                  <span className="font-bold">{post.authorName || 'Ronald Obal'}</span>
+                </div>
+                
+                {/* Categories (Tags) */}
+                {post.categories && post.categories.length > 0 && (
+                  <div className="flex gap-2 mt-2 flex-wrap">
+                    {post.categories.map((cat: string) => (
+                      <span key={cat} className="bg-[#f0f7ff] text-[#0A2A43] px-2 py-0.5 rounded text-[10px] font-bold uppercase border border-blue-100">
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+              <h2 className="text-3xl font-extrabold text-[#0A2A43] mb-8 leading-tight">{post.title}</h2>
+              
+              <div className={`overflow-hidden transition-all ${!isExpanded ? 'max-h-40 relative' : 'max-h-full'}`}>
+                <PortableText value={post.body} components={blogComponents} />
+                {!isExpanded && (
+                  <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-white to-transparent"></div>
+                )}
+              </div>
+
+              <button 
+                onClick={() => toggleExpand(post._id)}
+                className="mt-6 flex items-center gap-2 text-[#C9A227] font-bold hover:text-[#0A2A43] transition-colors"
               >
-                Try Again
+                {isExpanded ? (
+                  <>Show Less <ChevronUp size={20} /></>
+                ) : (
+                  <>Read Full Article <ChevronDown size={20} /></>
+                )}
               </button>
-            </div>
-          ) : posts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-xl text-gray-600">No articles found.</p>
-            </div>
-          ) : (
-            <div className="space-y-12">
-              {/* Optional performance improvement: For large number of posts, consider implementing pagination or "Load More" functionality */}
-              {posts.map((post) => (
-                <article
-                  key={post.id}
-                  className="bg-white rounded-xl shadow-sm overflow-hidden p-8"
-                >
-                  <div className="flex items-center text-sm text-gray-500 mb-4">
-                    <Calendar size={16} className="mr-2" />
-                    {formatDate(post.created_at)}
-                  </div>
-
-                  <h2 className="text-2xl font-bold text-[#0A2A43] mb-6">
-                    {post.title}
-                  </h2>
-
-                  {/* Render content: Show truncated version initially, full content when expanded */}
-                  <div className="prose prose-lg max-w-none text-gray-700">
-                    {expandedPosts.has(post.id) ? (
-                      // Full content when expanded
-                      <>
-                        {isHTML(post.content) ? (
-                          <div dangerouslySetInnerHTML={{ __html: post.content }} />
-                        ) : (
-                          <div>
-                            {post.content.split('\n\n').map((paragraph, index) => (
-                              <p key={index} className="mb-4 leading-relaxed">
-                                {paragraph}
-                              </p>
-                            ))}
-                          </div>
-                        )}
-                        <button
-                          onClick={() => toggleExpanded(post.id)}
-                          className="mt-4 text-[#C9A227] font-semibold hover:underline"
-                        >
-                          Read Less
-                        </button>
-                      </>
-                    ) : (
-                      // Truncated content with Read More button
-                      <>
-                        <div>
-                          {isHTML(post.content) ? (
-                            <div dangerouslySetInnerHTML={{ __html: getTruncatedContent(post.content) }} />
-                          ) : (
-                            <p className="mb-4 leading-relaxed">
-                              {getTruncatedContent(post.content)}
-                            </p>
-                          )}
-                        </div>
-                        <button
-                          onClick={() => toggleExpanded(post.id)}
-                          className="mt-4 text-[#C9A227] font-semibold hover:underline"
-                        >
-                          Read More
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+            </article>
+          );
+        })}
+      </div>
     </div>
   );
 }
