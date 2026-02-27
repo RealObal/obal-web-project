@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { Calendar, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { createClient } from '@sanity/client';
 import { PortableText } from '@portabletext/react'; 
-import imageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
 
 const sanity = createClient({
   projectId: 'khbx2r3z',
@@ -12,7 +12,7 @@ const sanity = createClient({
   apiVersion: '2026-02-26',
 });
 
-const builder = imageUrlBuilder(sanity);
+const builder = createImageUrlBuilder(sanity);
 const urlFor = (source: any) => builder.image(source);
 
 const blogComponents = {

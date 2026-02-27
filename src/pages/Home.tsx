@@ -4,7 +4,7 @@ import { BarChart3, TrendingUp, Users, FileText, ArrowRight, Award } from 'lucid
 import CountUp from 'react-countup';
 import { Helmet } from 'react-helmet-async';
 import { createClient } from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
 
 export default function Home() {
   const [recentPosts, setRecentPosts] = useState<any[]>([]);
@@ -22,7 +22,7 @@ export default function Home() {
     useCdn: true,
     apiVersion: '2026-02-26',
   });
-  const builder = imageUrlBuilder(sanity);
+  const builder = createImageUrlBuilder(sanity);
   const urlFor = (source: any) => builder.image(source);
 
   useEffect(() => {
