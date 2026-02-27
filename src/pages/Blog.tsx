@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Calendar, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { createClient } from '@sanity/client';
 import { PortableText } from '@portabletext/react'; 
 import imageUrlBuilder from '@sanity/image-url';
@@ -71,59 +72,54 @@ export default function Blog() {
         </div>
       </section>
 
-      <div className="max-w-3xl mx-auto mt-12 px-4">
+      <div className="max-w-5xl mx-auto mt-12 px-4">
         {loading ? (
           <div className="text-center py-20"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#C9A227] mx-auto"></div></div>
         ) : posts.map((post) => {
           const isExpanded = expandedPosts[post._id];
-          
-          return (
-            <article key={post._id} className="bg-white p-8 md:p-12 rounded-2xl shadow-md border border-gray-100 mb-12 transition-all">
-              {post.mainImage && (
-                <img src={urlFor(post.mainImage).url()} alt={post.title} className="w-full h-72 object-cover rounded-xl mb-8 shadow-sm" />
-              )}
-              
-              {/* Date and Author Stack */}
-              <div className="space-y-1 mb-6 text-sm">
-                <div className="flex items-center text-gray-500 uppercase tracking-wider font-semibold">
-                  {new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                </div>
-                <div className="flex items-center text-[#0A2A43]">
-                  <span className="font-bold mr-1 text-gray-500 italic text-xs">Author:</span>
-                  <span className="font-bold">{post.authorName || 'Ronald Obal'}</span>
-                </div>
-                
-                {/* Categories (Tags) */}
-                {post.categories && post.categories.length > 0 && (
-                  <div className="flex gap-2 mt-2 flex-wrap">
-                    {post.categories.map((cat: string) => (
-                      <span key={cat} className="bg-[#f0f7ff] text-[#0A2A43] px-2 py-0.5 rounded text-[10px] font-bold uppercase border border-blue-100">
-                        {cat}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-              
-              <h2 className="text-3xl font-extrabold text-[#0A2A43] mb-8 leading-tight">{post.title}</h2>
-              
-              <div className={`overflow-hidden transition-all ${!isExpanded ? 'max-h-40 relative' : 'max-h-full'}`}>
-                <PortableText value={post.body} components={blogComponents} />
-                {!isExpanded && (
-                  <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-white to-transparent"></div>
-                )}
-              </div>
+          const imgSrc = post.mainImage ? urlFor(post.mainImage).url() : '/About.JPG';
 
-              <button 
-                onClick={() => toggleExpand(post._id)}
-                className="mt-6 flex items-center gap-2 text-[#C9A227] font-bold hover:text-[#0A2A43] transition-colors"
-              >
-                {isExpanded ? (
-                  <>Show Less <ChevronUp size={20} /></>
-                ) : (
-                  <>Read Full Article <ChevronDown size={20} /></>
-                )}
-              </button>
+          return (
+            <article key={post._id} className="py-8 border-b border-gray-200">
+              <div className="flex flex-col md:flex-row gap-6">
+                {/* Image column */}
+                <div className="md:w-1/3 w-full">
+                  <img
+                    src={imgSrc}
+                    alt={post.title}
+                    className="w-full h-56 md:h-40 object-cover rounded-lg"
+                  />
+                </div>
+
+                {/* Content column */}
+                <div className="md:w-2/3 w-full">
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-[#192a3d] mb-2">{post.title}</h3>
+
+                  <div className="text-sm text-gray-500 mb-4">
+                    <span className="mr-4">By {post.authorName || 'Ronald Obal'}</span>
+                    <span className="mr-4">{new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                    {post.categories && post.categories.length > 0 && (
+                      <span className="text-gray-400">{post.categories.join(', ')}</span>
+                    )}
+                  </div>
+
+                  <div className={`text-gray-700 transition-all ${!isExpanded ? 'max-h-24 overflow-hidden relative' : 'max-h-full'}`}>
+                    <PortableText value={post.body} components={blogComponents} />
+                    {!isExpanded && (
+                      <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-white to-transparent"></div>
+                    )}
+                  </div>
+
+                  <div className="mt-4">
+                    <Link to={`/blog/${post._id}`} className="inline-flex items-center bg-[#2872fa] text-white px-4 py-2 rounded font-semibold hover:bg-blue-600">
+                      Read More
+                    </Link>
+                    <button onClick={() => toggleExpand(post._id)} className="ml-4 text-sm text-gray-600 hover:underline">
+                      {isExpanded ? 'Show Less' : 'Read Full Article'} {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </article>
           );
         })}
