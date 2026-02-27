@@ -182,6 +182,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Small green divider between Core Expertise and Read Recent Blog */}
+      <div className="flex justify-center -mt-6">
+        <div className="h-1 w-20 bg-[#15803d] rounded"></div>
+      </div>
+
       {/* Recent blog posts preview */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -47,6 +47,7 @@ export default function Blog() {
       _id, 
       title, 
       mainImage, 
+      slug, 
       body, 
       "created_at": _createdAt,
       "authorName": author->name,
@@ -87,7 +88,8 @@ export default function Blog() {
                   <img
                     src={imgSrc}
                     alt={post.title}
-                    className="w-full h-56 md:h-40 object-cover rounded-lg"
+                    loading="lazy"
+                    className="w-full h-56 md:h-40 object-cover object-top rounded-lg"
                   />
                 </div>
 
@@ -111,7 +113,7 @@ export default function Blog() {
                   </div>
 
                   <div className="mt-4">
-                    <Link to={`/blog/${post._id}`} className="inline-flex items-center bg-[#2872fa] text-white px-4 py-2 rounded font-semibold hover:bg-blue-600">
+                    <Link to={`/blog/${post.slug?.current || post._id}`} className="inline-flex items-center bg-[#2872fa] text-white px-4 py-2 rounded font-semibold hover:bg-blue-600">
                       Read More
                     </Link>
                     <button onClick={() => toggleExpand(post._id)} className="ml-4 text-sm text-gray-600 hover:underline">
