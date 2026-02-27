@@ -87,11 +87,11 @@ export default function Home() {
           <div className="flex justify-center md:justify-end">
             <div className="relative w-64 h-64 md:w-96 md:h-96 -mb-32 md:-mb-48 z-20">
               <div className="w-full h-full rounded-full border-[10px] border-white shadow-2xl overflow-hidden bg-gray-100">
-                <img 
-                  src="/ronald-profile.PNG" 
-                  alt="Ronald Obal" 
-                  className="w-full h-full object-cover object-top"
-                />
+                  <img 
+                    src="/About.JPG" 
+                    alt="Ronald Obal" 
+                    className="w-full h-full object-cover object-top"
+                  />
               </div>
             </div>
           </div>
