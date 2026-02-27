@@ -38,6 +38,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # ensure the token is available to push
+          persist-credentials: true
+
+      - name: Show current branches (debug)
+        run: git branch -a && git remote -v
 
       - name: Deploy `dist` to gh-pages
         uses: peaceiris/actions-gh-pages@v3
@@ -46,3 +52,6 @@ jobs:
           publish_dir: ./dist
           publish_branch: gh-pages
           allow_empty_commit: true
+          clean: true
+          force_orphan: true
+
