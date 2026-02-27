@@ -1,15 +1,34 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart3, TrendingUp, Users, FileText, ArrowRight, Award } from 'lucide-react';
 import CountUp from 'react-countup';
 import { Helmet } from 'react-helmet-async';
+import { createClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
 
 export default function Home() {
+  const [recentPosts, setRecentPosts] = useState<any[]>([]);
   const stats = [
     { label: 'Years Experience', value: 2 },
     { label: 'Projects Completed', value: 20 },
     { label: 'Organizations Served', value: 10 },
     { label: 'Lives Impacted', value: 1000 },
   ];
+
+  // configure sanity client exactly as in Blog.tsx
+  const sanity = createClient({
+    projectId: 'khbx2r3z',
+    dataset: 'blog',
+    useCdn: true,
+    apiVersion: '2026-02-26',
+  });
+  const builder = imageUrlBuilder(sanity);
+  const urlFor = (source: any) => builder.image(source);
+
+  useEffect(() => {
+    const q = `*[_type == "post"] | order(publishedAt desc)[0..2] { _id, title, mainImage, "created_at": _createdAt }`;
+    sanity.fetch(q).then((data) => setRecentPosts(data));
+  }, []);
 
   const highlights = [
     {
@@ -115,6 +134,42 @@ export default function Home() {
                 <h3 className="text-xl font-bold text-[#0A2A43] mb-3">{item.title}</h3>
                 <p className="text-gray-600">{item.description}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Recent blog posts preview */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#0A2A43] mb-4">Read Recent Blog</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Latest insights from the field
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {recentPosts.map((post) => (
+              <Link
+                key={post._id}
+                to={`/blog/${post._id}`}
+                className="block bg-white rounded-2xl shadow-sm hover:shadow-md transition-transform transform hover:-translate-y-1 overflow-hidden"
+              >
+                {post.mainImage && (
+                  <img
+                    src={urlFor(post.mainImage).url()}
+                    alt={post.title}
+                    className="w-full h-48 object-cover"
+                  />
+                )}
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-[#0A2A43] mb-2">{post.title}</h3>
+                  <p className="text-sm text-gray-500">
+                    {new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
