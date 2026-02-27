@@ -43,41 +43,37 @@ export default function Home() {
         <meta name="robots" content="index, follow" />
         <link rel="icon" type="image/png" href="/Logo1.png" />
       </Helmet>
-      <section className="relative bg-gradient-to-br from-[#0A2A43] via-[#0A2A43] to-[#0A2A43]/90 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-[#C9A227] rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#C9A227] rounded-full blur-3xl"></div>
-        </div>
+      <section className="relative w-full">
+        {/* The Curved Background Wrapper */}
+        <div 
+          className="absolute inset-0 bg-[#192a3d] z-0"
+          style={{ clipPath: 'ellipse(150% 100% at 50% 0%)' }}
+        ></div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
-              <Award className="text-[#C9A227]" size={18} />
-              <span className="text-sm font-medium">MEAL Manager | MEARL Specialist</span>
-            </div>
-
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Evidence-Based Systems for <span className="text-[#C9A227]">Social Impact</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 pt-24 pb-40 items-center">
+          {/* Left Column: Information */}
+          <div className="text-white">
+            <h1 className="text-5xl md:text-7xl font-serif font-bold mb-4">
+              Ronald Obal
             </h1>
-
-            <p className="text-xl text-gray-200 mb-8 leading-relaxed">
-              Transforming programs through robust monitoring, evaluation, accountability, and learning systems. Specialized in mental health, child protection, and community development.
+            <p className="text-xl md:text-2xl font-sans tracking-wide text-blue-200 mb-8 uppercase">
+              MEAL Manager | MEARL Specialist
             </p>
+            <div className="border-l-4 border-white/20 pl-6 italic text-lg opacity-90 max-w-md">
+              "Evidence-based systems generating actionable insights for social impact."
+            </div>
+          </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center px-8 py-4 bg-[#C9A227] text-[#0A2A43] font-semibold rounded-lg hover:bg-[#C9A227]/90 transition-all transform hover:scale-105"
-              >
-                Get in Touch
-                <ArrowRight className="ml-2" size={20} />
-              </Link>
-              <Link
-                to="/portfolio"
-                className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-[#0A2A43] transition-all"
-              >
-                View Portfolio
-              </Link>
+          {/* Right Column: The Circular Overlapping Photo */}
+          <div className="flex justify-center md:justify-end">
+            <div className="relative w-64 h-64 md:w-96 md:h-96 -mb-32 md:-mb-48 z-20">
+              <div className="w-full h-full rounded-full border-[10px] border-white shadow-2xl overflow-hidden bg-gray-100">
+                <img 
+                  src="/ronald-profile.PNG" 
+                  alt="Ronald Obal" 
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
             </div>
           </div>
         </div>
