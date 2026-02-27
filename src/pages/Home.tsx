@@ -26,7 +26,7 @@ export default function Home() {
   const urlFor = (source: any) => builder.image(source);
 
   useEffect(() => {
-    const q = `*[_type == "post"] | order(publishedAt desc)[0..2] { _id, title, mainImage, "created_at": _createdAt }`;
+    const q = `*[_type == "post"] | order(publishedAt desc)[0..2] { _id, title, mainImage, slug, "created_at": _createdAt }`;
     sanity.fetch(q).then((data) => setRecentPosts(data));
   }, []);
 
@@ -201,7 +201,7 @@ export default function Home() {
             {recentPosts.map((post) => (
               <Link
                 key={post._id}
-                to={`/blog/${post._id}`}
+                to={`/blog/${post.slug?.current || post._id}`}
                 className="block bg-white rounded-2xl shadow-sm hover:shadow-md transition-transform transform hover:-translate-y-1 overflow-hidden"
               >
                 {post.mainImage && (
