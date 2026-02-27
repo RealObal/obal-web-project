@@ -88,11 +88,54 @@ export default function Home() {
             <div className="relative w-64 h-64 md:w-96 md:h-96 -mb-32 md:-mb-48 z-20">
               <div className="w-full h-full rounded-full border-[10px] border-white shadow-2xl overflow-hidden bg-gray-100">
                   <img 
-                    src="/About.JPG" 
+                    src="/ronald-profile.PNG" 
                     alt="Ronald Obal" 
                     className="w-full h-full object-cover object-top"
                   />
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Summary (split two-column) - image left, bio right */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          {/* Left: tall About image */}
+          <div className="flex justify-center md:justify-start">
+            <div className="w-full max-w-lg aspect-[3/4] overflow-hidden rounded-2xl shadow-lg">
+              <img
+                src="/About.JPG"
+                alt="Ronald Obal"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Right: heading, underline, and bio */}
+          <div>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#15803d] mb-4">About Ronald Obal</h2>
+            <div className="h-1 w-20 bg-[#15803d] mb-6 rounded"></div>
+
+            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+              <p>
+                Ronald Obal is a MEAL Manager at Mouthpiece Initiative for Mental Health and Addiction (MIMHA),
+                where he leads monitoring, evaluation, accountability and learning systems that strengthen program
+                performance and accountability. He designs evidence-based systems and tools that turn field data into
+                actionable insights for program improvement and strategic decision-making.
+              </p>
+
+              <p>
+                With deep expertise in implementation research and MEARL approaches, Ronald supports organizations to
+                build capacity, establish rigorous evaluation frameworks, and create feedback loops that improve
+                outcomes for communities. His work focuses on developing sustainable data systems that prioritize
+                learning and accountability in mental health, child protection, and community development programs.
+              </p>
+
+              <p>
+                Ronald combines technical leadership with a collaborative approach to strengthen evidence-informed
+                programming across low-resource settings.
+              </p>
             </div>
           </div>
         </div>
