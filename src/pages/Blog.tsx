@@ -38,31 +38,70 @@ const blogComponents = {
 };
 
 export default function Blog() {
+  const { slug } = useParams<{ slug?: string }>();
   const [posts, setPosts] = useState<any[]>([]);
+  const [post, setPost] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [expandedPosts, setExpandedPosts] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    const query = `*[_type == "post"] | order(publishedAt desc) { 
-      _id, 
-      title, 
-      mainImage, 
-      slug, 
-      body, 
-      "created_at": _createdAt,
-      "authorName": author->name,
-      "categories": categories[]->title
-    }`;
-    
-    sanity.fetch(query).then((data) => {
-      setPosts(data);
-      setLoading(false);
-    });
-  }, []);
+    setLoading(true);
+    if (slug) {
+      const q = `*[_type == "post" && slug.current == $slug][0]{ _id, title, mainImage, body, "created_at": _createdAt, "authorName": author->name, "categories": categories[]->title, "slug": slug }`;
+      sanity.fetch(q, { slug }).then((data) => {
+        setPost(data || null);
+        setLoading(false);
+      }).catch(() => setLoading(false));
+    } else {
+      const query = `*[_type == "post"] | order(publishedAt desc) { _id, title, mainImage, slug, body, "created_at": _createdAt, "authorName": author->name, "categories": categories[]->title }`;
+      sanity.fetch(query).then((data) => {
+        setPosts(data || []);
+        setLoading(false);
+      }).catch(() => setLoading(false));
+    }
+  }, [slug]);
 
   const toggleExpand = (id: string) => {
     setExpandedPosts(prev => ({ ...prev, [id]: !prev[id] }));
   };
+
+  if (slug) {
+    if (loading) {
+      return <div className="text-center py-20"><div className="inline-block w-12 h-12 border-4 border-[#C9A227] border-t-transparent rounded-full animate-spin"></div></div>;
+    }
+
+    if (!post) {
+      return <div className="text-center py-20">Article not found.</div>;
+    }
+
+    return (
+      <div className="min-h-screen bg-white pb-20">
+        <section className="bg-[#0A2A43] text-white py-12">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#C9A227]">{post.title}</h1>
+            <div className="text-sm text-gray-200">
+              <span className="mr-4">By {post.authorName || 'Ronald Obal'}</span>
+              <span>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+            </div>
+          </div>
+        </section>
+
+        <article className="py-12 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {post.mainImage && (
+              <div className="mb-8 rounded-xl overflow-hidden">
+                <img src={urlFor(post.mainImage).url()} alt={post.title} className="w-full h-auto object-cover" />
+              </div>
+            )}
+
+            <div className="prose prose-lg max-w-none">
+              <PortableText value={post.body} components={blogComponents} />
+            </div>
+          </div>
+        </article>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -83,7 +122,7 @@ export default function Blog() {
           return (
             <article key={post._id} className="py-8 border-b border-gray-200">
               <div className="flex flex-col md:flex-row gap-6">
-                {/* Image column */}
+                {/* Image column (left on desktop) */}
                 <div className="md:w-1/3 w-full">
                   <img
                     src={imgSrc}
@@ -95,7 +134,9 @@ export default function Blog() {
 
                 {/* Content column */}
                 <div className="md:w-2/3 w-full">
-                  <h3 className="text-2xl md:text-3xl font-extrabold text-[#192a3d] mb-2">{post.title}</h3>
+                  <Link to={`/blog/${post.slug?.current || post._id}`} className="no-underline hover:underline">
+                    <h3 className="text-2xl md:text-3xl font-extrabold text-[#192a3d] mb-2">{post.title}</h3>
+                  </Link>
 
                   <div className="text-sm text-gray-500 mb-4">
                     <span className="mr-4">By {post.authorName || 'Ronald Obal'}</span>
