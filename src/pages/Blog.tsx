@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Calendar, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { createClient } from '@sanity/client';
 import { PortableText } from '@portabletext/react'; 
 import { createImageUrlBuilder } from '@sanity/image-url';
@@ -20,7 +20,6 @@ const blogComponents = {
     h1: ({children}: any) => <h1 className="text-3xl font-bold mt-8 mb-4 text-[#0A2A43]">{children}</h1>,
     h2: ({children}: any) => <h2 className="text-2xl font-bold mt-8 mb-4 text-[#0A2A43]">{children}</h2>,
     h3: ({children}: any) => <h3 className="text-xl font-bold mt-6 mb-3 text-[#0A2A43]">{children}</h3>,
-    // ADDED text-justify HERE
     normal: ({children}: any) => <p className="mb-4 text-gray-700 leading-relaxed text-justify">{children}</p>,
   },
   list: {
@@ -35,6 +34,21 @@ const blogComponents = {
       </a>
     ),
   },
+  types: {
+    image: ({ value }: any) => {
+      if (!value?.asset?._ref) return null;
+      return (
+        <figure className="my-8">
+          <img
+            src={urlFor(value).width(800).url()}
+            alt={value.alt || 'Blog image'}
+            className="w-full rounded-lg object-cover"
+          />
+          {value.caption && <figcaption className="text-sm text-gray-500 mt-2">{value.caption}</figcaption>}
+        </figure>
+      );
+    },
+  },
 };
 
 export default function Blog() {
@@ -47,13 +61,24 @@ export default function Blog() {
   useEffect(() => {
     setLoading(true);
     if (slug) {
-      const q = `*[_type == "post" && slug.current == $slug][0]{ _id, title, mainImage, body, "created_at": _createdAt, "authorName": author->name, "categories": categories[]->title, "slug": slug }`;
+      const q = `*[_type == "post" && slug.current == $slug][0]{
+        _id, title, mainImage, body,
+        "created_at": _createdAt,
+        "authorName": author->name,
+        "categories": categories[]->title,
+        "slug": slug
+      }`;
       sanity.fetch(q, { slug }).then((data) => {
         setPost(data || null);
         setLoading(false);
       }).catch(() => setLoading(false));
     } else {
-      const query = `*[_type == "post"] | order(publishedAt desc) { _id, title, mainImage, slug, body, "created_at": _createdAt, "authorName": author->name, "categories": categories[]->title }`;
+      const query = `*[_type == "post"] | order(publishedAt desc) {
+        _id, title, mainImage, slug, body,
+        "created_at": _createdAt,
+        "authorName": author->name,
+        "categories": categories[]->title
+      }`;
       sanity.fetch(query).then((data) => {
         setPosts(data || []);
         setLoading(false);
@@ -65,6 +90,7 @@ export default function Blog() {
     setExpandedPosts(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
+  // LOADING STATE
   if (slug) {
     if (loading) {
       return <div className="text-center py-20"><div className="inline-block w-12 h-12 border-4 border-[#C9A227] border-t-transparent rounded-full animate-spin"></div></div>;
@@ -88,9 +114,14 @@ export default function Blog() {
 
         <article className="py-12 bg-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Back link */}
+            <div className="mb-4">
+              <Link to="/blog" className="text-[#2872fa] hover:underline font-semibold">&larr; Back to All Posts</Link>
+            </div>
+
             {post.mainImage && (
               <div className="mb-8 rounded-xl overflow-hidden">
-                <img src={urlFor(post.mainImage).url()} alt={post.title} className="w-full h-auto object-cover" />
+                <img src={urlFor(post.mainImage).width(1200).url()} alt={post.title} className="w-full h-auto object-cover" />
               </div>
             )}
 
@@ -103,6 +134,7 @@ export default function Blog() {
     );
   }
 
+  // LIST OF POSTS
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       <section className="bg-[#0A2A43] text-white py-20 text-center">
@@ -117,12 +149,11 @@ export default function Blog() {
           <div className="text-center py-20"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#C9A227] mx-auto"></div></div>
         ) : posts.map((post) => {
           const isExpanded = expandedPosts[post._id];
-          const imgSrc = post.mainImage ? urlFor(post.mainImage).url() : '/About.JPG';
+          const imgSrc = post.mainImage ? urlFor(post.mainImage).width(600).url() : '/About.JPG';
 
           return (
             <article key={post._id} className="py-8 border-b border-gray-200">
               <div className="flex flex-col md:flex-row gap-6">
-                {/* Image column (left on desktop) */}
                 <div className="md:w-1/3 w-full">
                   <img
                     src={imgSrc}
@@ -132,7 +163,6 @@ export default function Blog() {
                   />
                 </div>
 
-                {/* Content column */}
                 <div className="md:w-2/3 w-full">
                   <Link to={`/blog/${post.slug?.current || post._id}`} className="no-underline hover:underline">
                     <h3 className="text-2xl md:text-3xl font-extrabold text-[#192a3d] mb-2">{post.title}</h3>

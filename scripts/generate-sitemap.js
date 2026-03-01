@@ -9,7 +9,7 @@ const sanity = createClient({
   apiVersion: '2026-02-26',
 });
 
-const BASE_URL = 'https://www.ronaldobal.com';
+const BASE_URL = 'https://ronaldobal.com';
 
 const staticPages = [
   { url: '/', priority: '1.0', changefreq: 'weekly' },

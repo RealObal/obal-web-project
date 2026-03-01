@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BarChart3, TrendingUp, Users, FileText, ArrowRight, Award } from 'lucide-react';
+import { BarChart3, TrendingUp, Users, FileText, ArrowRight } from 'lucide-react';
 import CountUp from 'react-countup';
 import { Helmet } from 'react-helmet-async';
 import { createClient } from '@sanity/client';
@@ -9,7 +9,7 @@ import { createImageUrlBuilder } from '@sanity/image-url';
 export default function Home() {
   const [recentPosts, setRecentPosts] = useState<any[]>([]);
   const stats = [
-    { label: 'Years Experience', value: 2 },
+    { label: 'Years Experience', value: 3 },
     { label: 'Projects Completed', value: 20 },
     { label: 'Organizations Served', value: 10 },
     { label: 'Lives Impacted', value: 1000 },
