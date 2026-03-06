@@ -17,11 +17,11 @@ export default function Portfolio() {
       impact: ['Improved program quality', 'Enhanced accountability', 'Data-driven decisions'],
     },
     {
-      role: 'MEARL Specialist',
+      role: 'MEARL Asistant',
       organization: 'Life + Limb Trauma Care Foundation Uganda Chapter',
       period: '2025',
       location: 'Uganda (Nationwide)',
-      type: 'Current Position',
+      type: 'Previous Position',
       achievements: [
         'Established national MEARL system for trauma care programs across Uganda',
         'Developed tools, data flows, and reporting structures',
@@ -31,7 +31,7 @@ export default function Portfolio() {
       impact: ['National scale-up', 'Systematic monitoring', 'Quality improvement'],
     },
     {
-      role: 'Project Assistant',
+      role: 'Project Officer – Child & Community Development',
       organization: 'Laminopabo Child Development Center',
       period: '2024 – 2025',
       location: 'Northern Uganda',
@@ -77,10 +77,10 @@ export default function Portfolio() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
             {[
-              { label: 'Years Experience', value: '2+' },
-              { label: 'Organizations', value: '10+' },
-              { label: 'Projects', value: '20+' },
-              { label: 'Lives Impacted', value: '1000+' },
+              { label: 'Years of Experience', value: '3+' },
+              { label: 'Organizations Engaged', value: '4+' },
+              { label: 'Projects Completed', value: '10+' },
+              { label: 'Beneficiaries Served', value: '1,000+' },
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-[#C9A227] mb-2">

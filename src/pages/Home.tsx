@@ -9,10 +9,10 @@ import { createImageUrlBuilder } from '@sanity/image-url';
 export default function Home() {
   const [recentPosts, setRecentPosts] = useState<any[]>([]);
   const stats = [
-    { label: 'Years Experience', value: 3 },
-    { label: 'Projects Completed', value: 20 },
-    { label: 'Organizations Served', value: 10 },
-    { label: 'Lives Impacted', value: 1000 },
+    { label: 'Years of Experience', value: 3 },
+    { label: 'Projects Completed', value: 10 },
+    { label: 'Beneficiaries Served', value: 1000 },
+    { label: 'Organizations Engaged', value: 4 },
   ];
 
   // configure sanity client exactly as in Blog.tsx

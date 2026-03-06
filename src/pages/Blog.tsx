@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { createClient } from '@sanity/client';
 import { PortableText } from '@portabletext/react'; 
@@ -14,6 +15,8 @@ const sanity = createClient({
 
 const builder = createImageUrlBuilder(sanity);
 const urlFor = (source: any) => builder.image(source);
+
+const SITE_URL = 'https://ronaldobal.com';
 
 const blogComponents = {
   block: {
@@ -100,8 +103,37 @@ export default function Blog() {
       return <div className="text-center py-20">Article not found.</div>;
     }
 
+    // Generate image URL using Sanity's image builder
+    const imageUrl = post.mainImage 
+      ? urlFor(post.mainImage).width(1200).height(630).fit('crop').url() 
+      : null;
+
     return (
       <div className="min-h-screen bg-white pb-20">
+        <Helmet>
+          {/* Default title */}
+          <title>{post.title} | Ronald Obal Blog</title>
+          
+          {/* Open Graph / Facebook / WhatsApp / LinkedIn */}
+          <meta property="og:type" content="article" />
+          <meta property="og:url" content={`${SITE_URL}/blog/${post.slug?.current}`} />
+          <meta property="og:title" content={post.title} />
+          <meta property="og:description" content={post.body ? 'Read this article on Ronald Obal\'s MEAL Blog' : ''} />
+          {imageUrl && <meta property="og:image" content={imageUrl} />}
+          {imageUrl && <meta property="og:image:alt" content={post.title} />}
+          
+          {/* Twitter Card */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={post.title} />
+          <meta name="twitter:description" content={post.body ? 'Read this article on Ronald Obal\'s MEAL Blog' : ''} />
+          {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+          
+          {/* Article-specific meta tags */}
+          {post.created_at && <meta property="article:published_time" content={post.created_at} />}
+          <meta property="article:author" content={post.authorName || 'Ronald Obal'} />
+          {post.categories && post.categories.length > 0 && <meta property="article:section" content={post.categories[0]} />}
+        </Helmet>
+        
         <section className="bg-[#0A2A43] text-white py-12">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#C9A227]">{post.title}</h1>
@@ -137,6 +169,22 @@ export default function Blog() {
   // LIST OF POSTS
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
+      <Helmet>
+        <title>MEAL Insights & Field Notes | Ronald Obal Blog</title>
+        <meta name="description" content="Evidence-based lessons from the field on Monitoring, Evaluation, Accountability, and Learning (MEAL) in social impact programming." />
+        
+        {/* Open Graph for blog listing */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`${SITE_URL}/blog`} />
+        <meta property="og:title" content="MEAL Insights & Field Notes | Ronald Obal Blog" />
+        <meta property="og:description" content="Evidence-based lessons from the field on Monitoring, Evaluation, Accountability, and Learning (MEAL) in social impact programming." />
+        
+        {/* Twitter Card for blog listing */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="MEAL Insights & Field Notes | Ronald Obal Blog" />
+        <meta name="twitter:description" content="Evidence-based lessons from the field on MEAL in social impact programming." />
+      </Helmet>
+      
       <section className="bg-[#0A2A43] text-white py-20 text-center">
         <div className="max-w-4xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4 text-[#C9A227]">MEAL Insights & Field Notes</h1>

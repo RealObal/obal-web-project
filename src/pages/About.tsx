@@ -22,7 +22,6 @@ export default function About() {
 
   const positions = [
     { title: 'MEAL Manager', org: 'Mouthpiece Initiative for Mental Health and Addiction (MIMHA)', meta: '2025 – Present' },
-    { title: 'MEARL Specialist', org: 'Life + Limb Trauma Care Foundation Uganda Chapter', meta: '2025' },
   ];
 
   const beliefs = [
@@ -82,17 +81,28 @@ export default function About() {
             </div>
 
             <div>
-              <div className="bg-gradient-to-br from-gray-100 to-gray-50 rounded-2xl p-8 h-full">
-                <div className="w-28 h-28 rounded-full mx-auto mb-4 overflow-hidden">
-                  <img src="/ronald-profile.PNG" alt="Ronald Obal" className="w-full h-full object-cover object-top" />
-                </div>
-                <div className="text-center">
-                  <h3 className="text-2xl font-bold text-[#0A2A43]">Ronald Obal</h3>
-                  <p className="text-[#C9A227] font-semibold">MEAL Manager | MEARL Specialist</p>
-                  <div className="mt-4 text-sm text-gray-600 space-y-1">
-                    <p>📍 Gulu & Kampala, Uganda</p>
-                    <p>📧 ronaldobal20@gmail.com</p>
-                    <p>📱 +256 776 280 494</p>
+              <div className="relative rounded-2xl p-8 h-full overflow-hidden">
+                {/* Background Image */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                  style={{ backgroundImage: 'url(/chart-data-desk.jpg)' }}
+                />
+                {/* Dark Overlay for readability */}
+                <div className="absolute inset-0 bg-black/60" />
+                
+                {/* Content */}
+                <div className="relative z-10">
+                  <div className="w-28 h-28 rounded-full mx-auto mb-4 overflow-hidden border-4 border-white/30">
+                    <img src="/ronald-profile.PNG" alt="Ronald Obal" className="w-full h-full object-cover object-top" />
+                  </div>
+                  <div className="text-center text-white">
+                    <h3 className="text-2xl font-bold text-white">Ronald Obal</h3>
+                    <p className="text-[#C9A227] font-semibold">MEAL Manager | MEARL Specialist</p>
+                    <div className="mt-4 text-sm text-gray-200 space-y-1">
+                      <p>📍 Gulu & Kampala, Uganda</p>
+                      <p>📧 ronaldobal20@gmail.com</p>
+                      <p>📱 +256 776 280 494</p>
+                    </div>
                   </div>
                 </div>
               </div>
