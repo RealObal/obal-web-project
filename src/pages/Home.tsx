@@ -28,7 +28,7 @@ export default function Home() {
 
   const stats = [
     { label: 'Years of Experience', value: 3, suffix: '+' },
-    { label: 'Projects Completed', value: 10, suffix: '+' },
+    { label: 'Projects Completed', value: 4, suffix: '+' },
     { label: 'Beneficiaries Served', value: 1000, suffix: '+' },
     { label: 'Organizations Engaged', value: 4, suffix: '+' },
   ];
