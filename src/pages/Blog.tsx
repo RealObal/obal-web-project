@@ -174,7 +174,8 @@ function SinglePost({ slug }: { slug: string }) {
             </div>
           )}
 
-          <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+            <h1 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+
             {post.title}
           </h1>
 
@@ -186,7 +187,7 @@ function SinglePost({ slug }: { slug: string }) {
               <span>{post.authorName || 'Ronald Obal'}</span>
             </span>
             <span className="text-gray-500">·</span>
-            <span>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+            <span>{formatDate(post.created_at, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
             <span className="text-gray-500">·</span>
             <span className="flex items-center gap-1"><Clock size={13} /> {readTime} min read</span>
           </div>
@@ -220,6 +221,14 @@ function SinglePost({ slug }: { slug: string }) {
       </article>
     </div>
   );
+}
+
+// ── Safe date formatter ───────────────────────────────────────────────────────
+function formatDate(dateStr: string | undefined, opts?: Intl.DateTimeFormatOptions): string {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('en-US', opts);
 }
 
 // ─── POST CARD ────────────────────────────────────────────────────────────────
@@ -272,7 +281,7 @@ function PostCard({ post }: { post: any }) {
             </span>
             <span className="font-medium text-gray-600">{post.authorName || 'Ronald Obal'}</span>
             <span>·</span>
-            <span>{new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+            <span>{formatDate(post.created_at, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
           </div>
 
           {post.categories && post.categories.length > 0 && (
@@ -301,26 +310,38 @@ function PostCard({ post }: { post: any }) {
 function BlogListing() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
     setLoading(true);
-    const query = `*[_type == "post"] | order(publishedAt desc) {
+    setError(null);
+    const query = `*[_type == "post"] | order(_createdAt desc) {
       _id, title, mainImage, slug, body,
+      publishedAt,
       "created_at": _createdAt,
       "authorName": author->name,
       "categories": categories[]->title
     }`;
-    sanity.fetch(query).then((data) => {
-      setPosts(data || []);
-      setLoading(false);
-    }).catch(() => setLoading(false));
+    sanity.fetch(query)
+      .then((data) => {
+        console.log('[Blog] fetched posts:', data?.length ?? 0, data);
+        setPosts(data || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('[Blog] fetch error:', err);
+        setError(err.message || 'Failed to load posts');
+        setLoading(false);
+      });
   }, []);
 
   const archiveMap: Record<string, number> = {};
   posts.forEach((p) => {
-    const key = new Date(p.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    archiveMap[key] = (archiveMap[key] || 0) + 1;
+    const key = formatDate(p.created_at, { month: 'long', year: 'numeric' });
+    if (key) {
+      archiveMap[key] = (archiveMap[key] || 0) + 1;
+    }
   });
 
   const allCategories = Array.from(new Set(posts.flatMap((p) => p.categories || [])));
@@ -379,6 +400,11 @@ function BlogListing() {
             {loading ? (
               <div className="flex justify-center py-24">
                 <div className="w-10 h-10 border-4 border-[#C9A227] border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : error ? (
+              <div className="text-center py-24 text-red-500">
+                <p className="font-semibold mb-2">Failed to load posts</p>
+                <p className="text-sm text-gray-400">{error}</p>
               </div>
             ) : filtered.length === 0 ? (
               <div className="text-center py-24 text-gray-400">No posts found.</div>
@@ -474,7 +500,7 @@ function BlogListing() {
                 </div>
               </div>
               <p className="text-gray-300 text-xs leading-relaxed">
-                Writing evidence-based insights on Monitoring, Evaluation, Accountability &amp; Learning in humanitarian and development contexts.
+                Writing evidence-based insights on Monitoring, Evaluation, Accountability & Learning in humanitarian and development contexts.
               </p>
             </div>
 
