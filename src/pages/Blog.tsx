@@ -88,6 +88,18 @@ const blogComponents = {
         </figure>
       );
     },
+    callout: ({ value }: any) => (
+      <div className="my-8 rounded-lg border border-gray-300 bg-white px-6 py-5">
+        {value.label && (
+          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gray-700">
+            {value.label}
+          </p>
+        )}
+        <p className="text-sm leading-relaxed text-gray-600">
+          {value.body}
+        </p>
+      </div>
+    ),
   },
 };
 

@@ -48,6 +48,27 @@ export default defineConfig({
                   {name: 'caption', title: 'Caption', type: 'string'},
                   {name: 'attribution', title: 'Photo credit', type: 'string'}
                 ]
+              },
+              {
+                type: 'object',
+                name: 'callout',
+                title: 'Callout',
+                fields: [
+                  {
+                    name: 'label',
+                    type: 'string',
+                    title: 'Label',
+                    description: 'e.g. Field insight, Key takeaway',
+                  },
+                  {
+                    name: 'body',
+                    type: 'text',
+                    title: 'Body text',
+                  },
+                ],
+                preview: {
+                  select: { title: 'label', subtitle: 'body' },
+                },
               }
             ]
           }
