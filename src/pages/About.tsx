@@ -170,22 +170,20 @@ export default function About() {
                   and generating actionable insights for learning and accountability.
                 </p>
                 <p>
-                  He currently serves as the{' '}
-                  <span className="font-semibold text-[#0A2A43]">
-                    MEAL Manager at Mouthpiece Initiative for Mental Health and Addiction (MIMHA)
-                  </span>
-                  , where he oversees monitoring systems, supports mental health program learning, leads
-                  evaluation activities, and ensures quality data for decision-making.
+                  He has led MEAL functions across child protection, livelihoods, education, youth empowerment,
+                  GBV response, trauma care, and community development, with expertise in MEL framework development,
+                  Outcome Harvesting, digital data collection (ODK, KoboToolbox, and SurveyCTO), capacity building,
+                  baseline and endline studies, data quality management, and reporting.
                 </p>
                 <p>
-                  Ronald has led MEAL functions across child protection, livelihoods, education, youth
-                  empowerment, GBV response, trauma care, and community development spanning MEL framework
-                  development, Outcome Harvesting, digital data collection (ODK/Kobo/SurveyCTO), capacity
-                  building, baseline and endline studies, and reporting.
+                  Ronald has experience supporting both community-based and institutional programs through
+                  data-driven decision-making, performance tracking, and learning systems that improve program
+                  effectiveness and accountability.
                 </p>
                 <p>
-                  He is known for strong analytical skills, field coordination experience, and the ability
-                  to translate data into programmatic learning and improvement.
+                  He is known for strong analytical skills, field coordination experience, and the ability to translate
+                  data into practical programmatic learning and improvement. Ronald is also passionate about youth
+                  participation, service delivery accountability, and evidence generation for social impact.
                 </p>
               </div>
             </div>

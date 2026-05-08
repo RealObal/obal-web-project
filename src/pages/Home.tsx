@@ -74,7 +74,7 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    const q = `*[_type == "post"] | order(publishedAt desc)[0..2] {
+    const q = `*[_type == "post"] | order(_createdAt desc)[0..2] {
       _id, title, mainImage, slug,
       "created_at": _createdAt,
       "authorName": author->name,
@@ -208,18 +208,15 @@ export default function Home() {
                   insights for learning and accountability.
                 </p>
                 <p>
-                  He currently serves as the{' '}
-                  <span className="font-semibold text-[#0A2A43]">
-                    MEAL Manager at Mouthpiece Initiative for Mental Health and Addiction (MIMHA)
-                  </span>
-                  , where he oversees monitoring systems, leads evaluation activities, and ensures
-                  quality data for decision-making across mental health programs in Uganda.
+                  He has led MEAL functions across child protection, livelihoods, education, youth empowerment,
+                  GBV response, trauma care, and community development, with expertise in MEL framework development,
+                  Outcome Harvesting, digital data collection (ODK, KoboToolbox, and SurveyCTO), capacity building,
+                  baseline and endline studies, data quality management, and reporting.
                 </p>
                 <p>
-                  Ronald has led MEAL functions across child protection, livelihoods, education, youth
-                  empowerment, GBV response, trauma care, and community development — combining technical
-                  leadership with a collaborative approach to strengthen evidence-informed programming
-                  across low-resource settings.
+                  Ronald has experience supporting both community-based and institutional programs through
+                  data-driven decision-making, performance tracking, and learning systems that improve program
+                  effectiveness and accountability.
                 </p>
               </div>
 
