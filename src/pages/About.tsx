@@ -41,7 +41,7 @@ export default function About() {
   const positions = [
     {
       title: 'MEAL Manager',
-      org: 'Mouthpiece Initiative for Mental Health and Addiction (MIMHA)',
+      org: 'Laminopabo Child and Youth Development Center',
       meta: '2025 – Present',
     },
   ];

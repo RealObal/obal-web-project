@@ -4,7 +4,7 @@ export default function Portfolio() {
   const experiences = [
     {
       role: 'MEAL Manager',
-      organization: 'Mouthpiece Initiative for Mental Health and Addiction (MIMHA)',
+      organization: 'Laminopabo Child and Youth Development Center',
       period: '2025 – Present',
       location: 'Gulu & Kampala, Uganda',
       type: 'Current Position',

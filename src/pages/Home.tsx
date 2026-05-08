@@ -68,7 +68,7 @@ export default function Home() {
   const awards = [
     {
       title: 'MEAL Manager of the Year (Nominee)',
-      org: 'MIMHA, Uganda',
+      org: 'Laminopabo Child and Youth Development Center, Uganda',
       year: '2025',
     },
   ];
@@ -334,11 +334,11 @@ export default function Home() {
                 <span className="text-green-400 text-xs font-bold uppercase tracking-widest">Currently Active</span>
               </div>
               <h3 className="home-display text-2xl md:text-3xl font-bold text-white mb-2">
-                MEAL Manager · MIMHA
+                MEAL Manager · Laminopabo Child and Youth Development Center
               </h3>
               <p className="home-serif text-gray-300 max-w-xl text-sm leading-relaxed">
-                Leading monitoring, evaluation, accountability and learning at Mouthpiece Initiative
-                for Mental Health and Addiction — strengthening mental health program systems across Uganda.
+                Leading monitoring, evaluation, accountability and learning at Laminopabo Child and Youth Development Center
+                — strengthening child protection and youth development program systems across Uganda.
               </p>
             </div>
             <Link
