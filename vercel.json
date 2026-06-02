@@ -1,4 +1,12 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "env": {
+    "VITE_API_URL": "https://khbx2r3z.api.sanity.io"
+  },
+  "branches": {
+    "main": { "name": "Production" }
+  },
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
   ]
