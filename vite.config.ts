@@ -10,7 +10,8 @@ const require = createRequire(import.meta.url);
 export default defineConfig(async ({ command }) => {
   const plugins: PluginOption[] = [react()];
 
-  if (command === 'build') {
+  // Skip prerendering on Vercel (Chrome not available in serverless environment)
+  if (command === 'build' && !process.env.VERCEL) {
     const vitePrerender = require('vite-plugin-prerender');
     const Renderer = vitePrerender.PuppeteerRenderer;
     const { applySeoToHtml } = await import('./scripts/prerender-seo.js');
