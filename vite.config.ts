@@ -3,17 +3,17 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
-import { applySeoToHtml } from './scripts/prerender-seo.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
 
-export default defineConfig(({ command }) => {
+export default defineConfig(async ({ command }) => {
   const plugins: PluginOption[] = [react()];
 
   if (command === 'build') {
     const vitePrerender = require('vite-plugin-prerender');
     const Renderer = vitePrerender.PuppeteerRenderer;
+    const { applySeoToHtml } = await import('./scripts/prerender-seo.js');
 
     plugins.push(
       vitePrerender({

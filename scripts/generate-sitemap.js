@@ -13,11 +13,11 @@ const BASE_URL = 'https://ronaldobal.com';
 
 const staticPages = [
   { url: '/', priority: '1.0', changefreq: 'weekly' },
-  { url: '/about', priority: '0.8', changefreq: 'monthly' },
-  { url: '/services', priority: '0.9', changefreq: 'monthly' },
-  { url: '/portfolio', priority: '0.8', changefreq: 'monthly' },
-  { url: '/blog', priority: '0.9', changefreq: 'weekly' },
-  { url: '/contact', priority: '0.8', changefreq: 'monthly' },
+  { url: '/about', priority: '0.7', changefreq: 'monthly' },
+  { url: '/services', priority: '0.6', changefreq: 'monthly' },
+  { url: '/portfolio', priority: '0.6', changefreq: 'monthly' },
+  { url: '/blog', priority: '0.5', changefreq: 'weekly' },
+  { url: '/contact', priority: '0.4', changefreq: 'monthly' },
 ];
 
 async function generateSitemap() {
@@ -59,7 +59,7 @@ async function generateSitemap() {
     // Write to public folder so it's served statically
     const publicDir = path.join(path.resolve('./public'), 'sitemap.xml');
     fs.writeFileSync(publicDir, sitemap, 'utf-8');
-    console.log(`✓ Sitemap generated with ${staticPages.length} static pages + ${posts.length} blog posts`);
+    console.info(`OK Sitemap generated with ${staticPages.length} static pages + ${posts.length} blog posts`);
   } catch (error) {
     console.error('Error generating sitemap:', error);
     process.exit(1);
