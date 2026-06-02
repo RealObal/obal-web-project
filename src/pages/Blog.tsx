@@ -14,6 +14,7 @@ import type { TypedObject } from '@portabletext/types';
 import { createImageUrlBuilder } from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url';
 import { Seo } from '../lib/seo';
+import { AuthorBio } from '../components/AuthorBio';
 import {
   DEFAULT_IMAGE,
   SITE_URL,
@@ -200,6 +201,7 @@ function SinglePost({ slug }: { slug: string }) {
     .slice(0, 155) || `Read ${post.title} by Ronald Obal.`;
   const publishedDate = post.created_at || new Date().toISOString();
   const articleImage = imageUrl || DEFAULT_IMAGE;
+  const authorUrl = absoluteUrl('/about');
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -217,13 +219,13 @@ function SinglePost({ slug }: { slug: string }) {
       '@type': 'Person',
       '@id': `${SITE_URL}/#person`,
       name: post.authorName || 'Ronald Obal',
-      url: SITE_URL,
+      url: authorUrl,
     },
     publisher: {
       '@type': 'Person',
       '@id': `${SITE_URL}/#person`,
       name: 'Ronald Obal',
-      url: SITE_URL,
+      url: authorUrl,
       image: DEFAULT_IMAGE,
     },
   };
@@ -255,6 +257,7 @@ function SinglePost({ slug }: { slug: string }) {
           ]),
         ]}
       >
+        <link rel="canonical" href={articleUrl} />
         <meta property="article:published_time" content={publishedDate} />
         <meta property="article:modified_time" content={publishedDate} />
         <meta property="article:author" content={post.authorName || 'Ronald Obal'} />
@@ -310,6 +313,11 @@ function SinglePost({ slug }: { slug: string }) {
 
         <div className="bg-white rounded-xl shadow-sm p-6 sm:p-10">
           <PortableText value={post.body || []} components={blogComponents} />
+        </div>
+
+        {/* Author bio section */}
+        <div className="mt-10">
+          <AuthorBio authorName={post.authorName || 'Ronald Obal'} />
         </div>
 
         {/* Post footer: back link + X follow */}
