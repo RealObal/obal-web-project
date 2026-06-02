@@ -1,5 +1,7 @@
 import { GraduationCap, Briefcase, CheckCircle, MapPin, Mail, Phone } from 'lucide-react';
-import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { Seo } from '../lib/seo';
+import { breadcrumbSchema } from '../lib/seoData';
 
 const X_HANDLE = 'real_obal';
 
@@ -42,7 +44,7 @@ export default function About() {
     {
       title: 'MEAL Manager',
       org: 'Laminopabo Child and Youth Development Center',
-      meta: '2025 – Present',
+      meta: '2025 - Present',
     },
   ];
 
@@ -63,11 +65,18 @@ export default function About() {
 
   return (
     <div className="font-sans">
-      <Helmet>
-        <title>About — Ronald Obal</title>
-        <meta name="description" content="Ronald Obal — MEAL Manager and MEARL Specialist. Professional bio, beliefs, education and skills." />
+      <Seo
+        title="About Ronald Obal | MEAL Manager & MEARL Specialist"
+        description="Learn about Ronald Obal, a MEAL Manager and MEARL Specialist in Uganda with experience in monitoring, evaluation, accountability, research, and learning."
+        path="/about"
+        type="profile"
+        jsonLd={breadcrumbSchema([
+          { name: 'Ronald Obal Official Website', path: '/' },
+          { name: 'About Ronald', path: '/about' },
+        ])}
+      >
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-      </Helmet>
+      </Seo>
 
       <style>{`
         .about-display { font-family: 'Playfair Display', Georgia, serif; }
@@ -95,8 +104,16 @@ export default function About() {
         .skill-pill:hover { transform: translateY(-2px); }
       `}</style>
 
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-[#0A2A43] text-white overflow-hidden">
+      {/* -- HERO ----------------------------------------------------------- */}
+      <section className="relative bg-[#0A2A43] text-white overflow-hidden" style={{
+        backgroundImage: 'url(/About%20image.JPEG)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}>
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/50" />
+        
         {/* Diagonal texture */}
         <div className="absolute inset-0 opacity-[0.04]" style={{
           backgroundImage: 'repeating-linear-gradient(45deg, #C9A227 0, #C9A227 1px, transparent 0, transparent 50%)',
@@ -107,8 +124,11 @@ export default function About() {
 
         <div className="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-24 md:py-32">
           <div className="max-w-4xl">
+            <Link to="/" className="fade-up inline-flex text-[#C9A227] text-xs font-bold uppercase tracking-[0.25em] mb-5 hover:text-white transition-colors">
+              Ronald Obal Official Website
+            </Link>
             <p className="fade-up text-[#C9A227] text-xs font-bold uppercase tracking-[0.35em] mb-5">
-              MEAL Manager · MEARL Specialist
+              MEAL Manager | MEARL Specialist
             </p>
             <h1 className="about-display fade-up delay-1 text-5xl md:text-7xl font-black text-white leading-none mb-8">
               Ronald<br />
@@ -147,12 +167,12 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── PROFESSIONAL BIO ──────────────────────────────────────────────── */}
+      {/* -- PROFESSIONAL BIO ------------------------------------------------ */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
 
-            {/* Photo — visible on mobile too */}
+            {/* Photo - visible on mobile too */}
             <div className="lg:hidden mb-4">
               <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-[#C9A227]/30 mx-auto shadow-xl">
                 <img src="/ronald-profile.PNG" alt="Ronald Obal" className="w-full h-full object-cover object-top" />
@@ -201,7 +221,7 @@ export default function About() {
                   <p className="about-serif text-white/90 text-sm italic leading-relaxed">
                     "Every data point is a person. Every insight is an opportunity to serve better."
                   </p>
-                  <p className="mt-3 text-[#C9A227] text-xs font-bold uppercase tracking-widest">— Ronald Obal</p>
+                  <p className="mt-3 text-[#C9A227] text-xs font-bold uppercase tracking-widest">- Ronald Obal</p>
                 </div>
               </div>
               {/* Decorative offset border */}
@@ -211,7 +231,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── QUOTE BLOCK ──────────────────────────────────────────────────── */}
+      {/* -- QUOTE BLOCK ---------------------------------------------------- */}
       <section className="bg-[#0A2A43] py-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03]" style={{
           backgroundImage: 'repeating-linear-gradient(-45deg, #C9A227 0, #C9A227 1px, transparent 0, transparent 50%)',
@@ -226,7 +246,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── WHAT I BELIEVE ───────────────────────────────────────────────── */}
+      {/* -- WHAT I BELIEVE ------------------------------------------------- */}
       <section className="py-24 bg-[#f7f5f0]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="grid lg:grid-cols-12 gap-16 items-start">
@@ -243,7 +263,7 @@ export default function About() {
                 <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-[#0A2A43]/60 to-transparent" />
               </div>
               <p className="mt-4 about-serif text-sm text-gray-500 italic text-center">
-                Ronald Obal · MEAL Manager & Specialist
+                Ronald Obal | MEAL Manager & Specialist
               </p>
             </div>
 
@@ -270,14 +290,14 @@ export default function About() {
               </div>
 
               <div className="mt-12 pt-8 border-t border-gray-200">
-                <p className="about-serif italic text-gray-500 text-lg">— Ronald Obal</p>
+                <p className="about-serif italic text-gray-500 text-lg">- Ronald Obal</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── TECHNICAL SKILLS ─────────────────────────────────────────────── */}
+      {/* -- TECHNICAL SKILLS ----------------------------------------------- */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="text-center mb-14">
@@ -301,7 +321,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── EDUCATION & POSITIONS ────────────────────────────────────────── */}
+      {/* -- EDUCATION & POSITIONS ------------------------------------------ */}
       <section className="py-24 bg-[#f7f5f0]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="grid md:grid-cols-2 gap-16">
@@ -368,7 +388,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── FOOTER CTA ───────────────────────────────────────────────────── */}
+      {/* -- FOOTER CTA ----------------------------------------------------- */}
       <section className="bg-[#0A2A43] py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="about-display text-3xl font-bold text-white mb-3">Let's Connect</h2>

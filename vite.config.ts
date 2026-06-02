@@ -1,10 +1,41 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type PluginOption } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
+import { applySeoToHtml } from './scripts/prerender-seo.js';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  optimizeDeps: {
-    exclude: ['lucide-react'],
-  },
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
+
+export default defineConfig(({ command }) => {
+  const plugins: PluginOption[] = [react()];
+
+  if (command === 'build') {
+    const vitePrerender = require('vite-plugin-prerender');
+    const Renderer = vitePrerender.PuppeteerRenderer;
+
+    plugins.push(
+      vitePrerender({
+        staticDir: path.join(__dirname, 'dist'),
+        routes: ['/', '/about', '/services', '/portfolio', '/blog', '/contact'],
+        renderer: new Renderer({
+          headless: true,
+          renderAfterTime: 1500,
+          maxConcurrentRoutes: 2,
+        }),
+        postProcess(renderedRoute: { route: string; html: string }) {
+          renderedRoute.html = applySeoToHtml(renderedRoute.html, renderedRoute.route);
+          return renderedRoute;
+        },
+      }),
+    );
+  }
+
+  return {
+    plugins,
+    optimizeDeps: {
+      exclude: ['lucide-react'],
+    },
+  };
 });

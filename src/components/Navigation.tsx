@@ -21,11 +21,11 @@ export default function Navigation() {
   }, [location]);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services' },
-    { name: 'Portfolio', path: '/portfolio' },
-    { name: 'Blog', path: '/blog' },
+    { name: 'Ronald Obal', path: '/' },
+    { name: 'About Ronald', path: '/about' },
+    { name: 'MEAL Services', path: '/services' },
+    { name: 'Experience', path: '/portfolio' },
+    { name: 'Insights', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
 

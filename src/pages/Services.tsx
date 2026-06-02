@@ -1,6 +1,7 @@
 import { Workflow, BarChart3, Database, LineChart, FileText, Users, Settings, GraduationCap, Laptop, BookOpen, Brain, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import { Seo } from '../lib/seo';
+import { breadcrumbSchema } from '../lib/seoData';
 
 export default function Services() {
   const services = [
@@ -74,15 +75,22 @@ export default function Services() {
 
   return (
     <div>
-      <Helmet>
-        <title>Ronald Obal - MEAL Services | Monitoring, Evaluation, Accountability & Learning Solutions</title>
-        <meta name="description" content="Comprehensive MEAL services including system design, surveys, data analysis, evaluations, and capacity building for mental health, child protection, and community development programs." />
-        <link rel="canonical" href="https://ronaldobal.com/services" />
-        <meta name="robots" content="index, follow" />
-      </Helmet>
+      <Seo
+        title="MEAL Services by Ronald Obal | Monitoring, Evaluation & Learning"
+        description="Explore Ronald Obal's MEAL services, including system design, surveys, data analysis, evaluations, digital data collection, and capacity building in Uganda."
+        path="/services"
+        jsonLd={breadcrumbSchema([
+          { name: 'Ronald Obal Official Website', path: '/' },
+          { name: 'MEAL Services', path: '/services' },
+        ])}
+      >
+      </Seo>
       <section className="bg-gradient-to-br from-[#0A2A43] to-[#0A2A43]/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
+            <Link to="/" className="inline-flex text-[#C9A227] text-xs font-bold uppercase tracking-[0.25em] mb-5 hover:text-white transition-colors">
+              Ronald Obal Official Website
+            </Link>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Services</h1>
             <p className="text-xl text-gray-200 leading-relaxed">
               Comprehensive MEAL services designed to strengthen program performance, ensure accountability, and generate actionable insights for learning and impact.

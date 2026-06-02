@@ -1,7 +1,10 @@
 import { useState, FormEvent } from 'react';
 import { Mail, Phone, MapPin, Linkedin, Send, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { ContactForm as ContactFormType } from '../types';
+import { Seo } from '../lib/seo';
+import { breadcrumbSchema } from '../lib/seoData';
 
 export default function Contact() {
   const [formData, setFormData] = useState<ContactFormType>({
@@ -50,9 +53,22 @@ export default function Contact() {
 
   return (
     <div>
+      <Seo
+        title="Contact Ronald Obal | MEAL Consultancy & Collaboration"
+        description="Contact Ronald Obal for MEAL systems, evaluations, research, learning, accountability, digital data collection, and development program collaboration in Uganda."
+        path="/contact"
+        jsonLd={breadcrumbSchema([
+          { name: 'Ronald Obal Official Website', path: '/' },
+          { name: 'Contact', path: '/contact' },
+        ])}
+      >
+      </Seo>
       <section className="bg-gradient-to-br from-[#0A2A43] to-[#0A2A43]/90 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
+            <Link to="/" className="inline-flex text-[#C9A227] text-xs font-bold uppercase tracking-[0.25em] mb-5 hover:text-white transition-colors">
+              Ronald Obal Official Website
+            </Link>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Get in Touch</h1>
             <p className="text-xl text-gray-200 leading-relaxed">
               Let's discuss how I can support your organization with MEAL systems, evaluations, or capacity building.

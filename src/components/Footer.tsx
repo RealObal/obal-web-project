@@ -23,10 +23,18 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
+                  to="/"
+                  className="text-gray-300 hover:text-[#C9A227] transition-colors"
+                >
+                  Ronald Obal Official Website
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/about"
                   className="text-gray-300 hover:text-[#C9A227] transition-colors"
                 >
-                  About
+                  About Ronald
                 </Link>
               </li>
               <li>
@@ -34,7 +42,7 @@ export default function Footer() {
                   to="/services"
                   className="text-gray-300 hover:text-[#C9A227] transition-colors"
                 >
-                  Services
+                  MEAL Services
                 </Link>
               </li>
               <li>
@@ -42,7 +50,7 @@ export default function Footer() {
                   to="/portfolio"
                   className="text-gray-300 hover:text-[#C9A227] transition-colors"
                 >
-                  Portfolio
+                  Experience
                 </Link>
               </li>
               <li>
@@ -50,7 +58,7 @@ export default function Footer() {
                   to="/blog"
                   className="text-gray-300 hover:text-[#C9A227] transition-colors"
                 >
-                  Blog
+                  Insights
                 </Link>
               </li>
               <li>

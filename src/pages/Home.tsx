@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BarChart3, TrendingUp, Users, FileText, ArrowRight, BookOpen, Award, FlaskConical, Globe } from 'lucide-react';
+import { BarChart3, TrendingUp, Users, FileText, ArrowRight, BookOpen, FlaskConical, Globe } from 'lucide-react';
 import CountUp from 'react-countup';
-import { Helmet } from 'react-helmet-async';
 import { createClient } from '@sanity/client';
 import { createImageUrlBuilder } from '@sanity/image-url';
+import type { SanityImageSource } from '@sanity/image-url';
+import { Seo } from '../lib/seo';
+import {
+  breadcrumbSchema,
+  personSchema,
+  profilePageSchema,
+  siteNavigationSchema,
+  websiteSchema,
+} from '../lib/seoData';
 
 const sanity = createClient({
   projectId: 'khbx2r3z',
@@ -13,7 +21,19 @@ const sanity = createClient({
   apiVersion: '2026-02-26',
 });
 const builder = createImageUrlBuilder(sanity);
-const urlFor = (source: any) => builder.image(source);
+const urlFor = (source: SanityImageSource) => builder.image(source);
+
+interface BlogPostSummary {
+  _id: string;
+  title: string;
+  mainImage?: SanityImageSource;
+  slug?: {
+    current?: string;
+  };
+  created_at: string;
+  authorName?: string;
+  categories?: string[];
+}
 
 const X_HANDLE = 'real_obal';
 
@@ -24,7 +44,7 @@ const XLogo = ({ size = 16 }: { size?: number }) => (
 );
 
 export default function Home() {
-  const [recentPosts, setRecentPosts] = useState<any[]>([]);
+  const [recentPosts, setRecentPosts] = useState<BlogPostSummary[]>([]);
 
   const stats = [
     { label: 'Years of Experience', value: 3, suffix: '+' },
@@ -65,14 +85,6 @@ export default function Home() {
     },
   ];
 
-  const awards = [
-    {
-      title: 'MEAL Manager of the Year (Nominee)',
-      org: 'Laminopabo Child and Youth Development Center, Uganda',
-      year: '2025',
-    },
-  ];
-
   useEffect(() => {
     const q = `*[_type == "post"] | order(_createdAt desc)[0..2] {
       _id, title, mainImage, slug,
@@ -85,15 +97,22 @@ export default function Home() {
 
   return (
     <div className="font-sans">
-      <Helmet>
-        <title>Ronald Obal — MEAL Manager & MEARL Specialist</title>
-        <meta name="description" content="Ronald Obal is a MEAL Manager and MEARL Specialist designing evidence-based systems for monitoring, evaluation, accountability, and learning in mental health, child protection, and community development." />
-        <link rel="canonical" href="https://ronaldobal.com/" />
-        <meta name="robots" content="index, follow" />
-        <meta name="twitter:site" content={`@${X_HANDLE}`} />
+      <Seo
+        title="Ronald Obal | MEAL Manager & MEARL Specialist"
+        description="Official website of Ronald Obal, MEAL Manager, researcher, and development practitioner in Uganda."
+        path="/"
+        type="profile"
+        jsonLd={[
+          personSchema,
+          websiteSchema,
+          profilePageSchema,
+          siteNavigationSchema,
+          breadcrumbSchema([{ name: 'Ronald Obal Official Website', path: '/' }]),
+        ]}
+      >
         <link rel="icon" type="image/png" href="/Logo1.png" />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-      </Helmet>
+      </Seo>
 
       <style>{`
         .home-display { font-family: 'Playfair Display', Georgia, serif; }
@@ -109,8 +128,16 @@ export default function Home() {
         .interest-card:hover p { color: white; }
       `}</style>
 
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative bg-[#0A2A43] overflow-hidden min-h-[92vh] flex items-center">
+      {/* -- HERO ----------------------------------------------------------- */}
+      <section className="relative bg-[#0A2A43] overflow-hidden min-h-[92vh] flex items-center" style={{
+        backgroundImage: 'url(/Hero%20image.JPG)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}>
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/50" />
+        
         {/* Diagonal dot texture */}
         <div className="absolute inset-0 opacity-[0.045]" style={{
           backgroundImage: 'repeating-linear-gradient(45deg, #C9A227 0, #C9A227 1px, transparent 0, transparent 50%)',
@@ -123,7 +150,7 @@ export default function Home() {
           {/* Left */}
           <div className="text-white">
             <p className="fade-up d1 text-[#C9A227] text-xs font-bold uppercase tracking-[0.35em] mb-5">
-              MEAL Manager · MEARL Specialist
+              MEAL Manager | MEARL Specialist
             </p>
 
             <h1 className="fade-up d2 home-display text-6xl md:text-8xl font-black text-white leading-none mb-6">
@@ -131,13 +158,17 @@ export default function Home() {
               <span className="text-[#C9A227]">Obal</span>
             </h1>
 
-            {/* Quote — mirrors drolum.com hero quote */}
+            {/* Quote - mirrors drolum.com hero quote */}
             <blockquote className="fade-up d3 border-l-4 border-[#C9A227]/40 pl-6 mb-8">
               <p className="home-serif italic text-xl text-gray-300 leading-relaxed max-w-lg">
                 Through evidence, accountability, and continuous learning, we shape programs that truly change lives.
               </p>
-              <footer className="mt-2 text-[#C9A227] text-xs font-bold uppercase tracking-widest">— Ronald Obal</footer>
+              <footer className="mt-2 text-[#C9A227] text-xs font-bold uppercase tracking-widest">- Ronald Obal</footer>
             </blockquote>
+
+            <p className="fade-up d3 home-serif text-gray-200 text-base md:text-lg leading-relaxed max-w-xl mb-8">
+              This is the official website of Ronald Obal, a MEAL Manager, Monitoring Evaluation Accountability Research and Learning (MEARL) Specialist, researcher, and development practitioner in Uganda.
+            </p>
 
             <div className="fade-up d4 flex flex-wrap gap-3 mt-8">
               <Link
@@ -145,6 +176,12 @@ export default function Home() {
                 className="inline-flex items-center gap-2 bg-[#C9A227] text-[#0A2A43] font-bold px-6 py-3 rounded-full hover:bg-[#b8911f] transition-colors text-sm"
               >
                 More Details <ArrowRight size={15} />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 border border-white/20 text-white font-semibold px-5 py-3 rounded-full hover:border-[#C9A227] hover:text-[#C9A227] transition-colors text-sm"
+              >
+                Contact Ronald <ArrowRight size={15} />
               </Link>
               <a
                 href={`https://twitter.com/intent/follow?screen_name=${X_HANDLE}`}
@@ -175,7 +212,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── ABOUT SUMMARY — mirrors drolum "About Dr. Ronald Olum" ──────── */}
+      {/* -- ABOUT SUMMARY - mirrors drolum "About Dr. Ronald Olum" -------- */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -203,29 +240,28 @@ export default function Home() {
               <div className="home-serif space-y-5 text-gray-700 text-lg leading-relaxed mt-6">
                 <p>
                   <strong className="text-[#0A2A43]">Ronald Obal</strong> is a Monitoring, Evaluation,
-                  Accountability and Learning (MEAL) professional with strong experience in designing
-                  evidence-based systems, strengthening program performance, and generating actionable
-                  insights for learning and accountability.
+                  Accountability, Research and Learning professional focused on practical evidence systems
+                  for social impact programs in Uganda.
                 </p>
                 <p>
-                  He has led MEAL functions across child protection, livelihoods, education, youth empowerment,
-                  GBV response, trauma care, and community development, with expertise in MEL framework development,
-                  Outcome Harvesting, digital data collection (ODK, KoboToolbox, and SurveyCTO), capacity building,
-                  baseline and endline studies, data quality management, and reporting.
-                </p>
-                <p>
-                  Ronald has experience supporting both community-based and institutional programs through
-                  data-driven decision-making, performance tracking, and learning systems that improve program
-                  effectiveness and accountability.
+                  His work spans child protection, livelihoods, education, youth empowerment, GBV response,
+                  trauma care, mental health, and community development, with an emphasis on data that improves
+                  decisions and accountability.
                 </p>
               </div>
 
-              <div className="mt-8">
+              <div className="mt-8 flex flex-wrap gap-4">
                 <Link
                   to="/about"
                   className="inline-flex items-center gap-2 text-[#0A2A43] font-bold border-b-2 border-[#C9A227] pb-0.5 hover:text-[#C9A227] transition-colors"
                 >
                   More Details <ArrowRight size={16} />
+                </Link>
+                <Link
+                  to="/portfolio"
+                  className="inline-flex items-center gap-2 text-[#0A2A43] font-bold border-b-2 border-[#C9A227] pb-0.5 hover:text-[#C9A227] transition-colors"
+                >
+                  View Experience <ArrowRight size={16} />
                 </Link>
               </div>
             </div>
@@ -233,7 +269,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PROFESSIONAL INTERESTS — mirrors drolum "Research Interests" ── */}
+      {/* -- PROFESSIONAL INTERESTS - mirrors drolum "Research Interests" -- */}
       <section className="py-20 bg-[#f7f5f0]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="text-center mb-14">
@@ -255,7 +291,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── STATS — mirrors drolum "Scholarly Contributions" counters ───── */}
+      {/* -- STATS - mirrors drolum "Scholarly Contributions" counters ----- */}
       <section className="py-20 bg-[#0A2A43] relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.04]" style={{
           backgroundImage: 'repeating-linear-gradient(45deg, #C9A227 0, #C9A227 1px, transparent 0, transparent 50%)',
@@ -283,16 +319,16 @@ export default function Home() {
 
           <div className="mt-10 text-center">
             <Link
-              to="/about"
+              to="/portfolio"
               className="inline-flex items-center gap-2 text-[#C9A227] font-bold hover:underline text-sm"
             >
-              More Professional Details <ArrowRight size={15} />
+              View Professional Experience <ArrowRight size={15} />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ── CORE EXPERTISE ───────────────────────────────────────────────── */}
+      {/* -- CORE EXPERTISE ------------------------------------------------- */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="text-center mb-14">
@@ -317,10 +353,18 @@ export default function Home() {
               </div>
             ))}
           </div>
+          <div className="mt-10 text-center">
+            <Link
+              to="/services"
+              className="inline-flex items-center gap-2 text-[#0A2A43] font-bold border-b-2 border-[#C9A227] pb-0.5 hover:text-[#C9A227] transition-colors text-sm"
+            >
+              Explore MEAL Services <ArrowRight size={15} />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ── CURRENT ROLE BANNER ──────────────────────────────────────────── */}
+      {/* -- CURRENT ROLE BANNER -------------------------------------------- */}
       <section className="py-6 bg-[#f7f5f0]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="bg-[#0A2A43] rounded-2xl px-8 md:px-12 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 relative overflow-hidden">
@@ -334,11 +378,11 @@ export default function Home() {
                 <span className="text-green-400 text-xs font-bold uppercase tracking-widest">Currently Active</span>
               </div>
               <h3 className="home-display text-2xl md:text-3xl font-bold text-white mb-2">
-                MEAL Manager · Laminopabo Child and Youth Development Center
+                MEAL Manager | Laminopabo Child and Youth Development Center
               </h3>
               <p className="home-serif text-gray-300 max-w-xl text-sm leading-relaxed">
                 Leading monitoring, evaluation, accountability and learning at Laminopabo Child and Youth Development Center
-                — strengthening child protection and youth development program systems across Uganda.
+                - strengthening child protection and youth development program systems across Uganda.
               </p>
             </div>
             <Link
@@ -351,7 +395,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── RECENT BLOG — mirrors drolum "Read Recent Blog" ─────────────── */}
+      {/* -- RECENT BLOG - mirrors drolum "Read Recent Blog" --------------- */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-14">

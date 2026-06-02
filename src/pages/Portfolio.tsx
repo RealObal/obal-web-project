@@ -1,11 +1,14 @@
 import { Briefcase, Calendar, MapPin, Award, TrendingUp, Users, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Seo } from '../lib/seo';
+import { breadcrumbSchema } from '../lib/seoData';
 
 export default function Portfolio() {
   const experiences = [
     {
       role: 'MEAL Manager',
       organization: 'Laminopabo Child and Youth Development Center',
-      period: '2025 – Present',
+      period: '2025 - Present',
       location: 'Gulu & Kampala, Uganda',
       type: 'Current Position',
       achievements: [
@@ -17,7 +20,7 @@ export default function Portfolio() {
       impact: ['Improved program quality', 'Enhanced accountability', 'Data-driven decisions'],
     },
     {
-      role: 'MEARL Asistant',
+      role: 'MEARL Assistant',
       organization: 'Life + Limb Trauma Care Foundation Uganda Chapter',
       period: '2025',
       location: 'Uganda (Nationwide)',
@@ -31,9 +34,9 @@ export default function Portfolio() {
       impact: ['National scale-up', 'Systematic monitoring', 'Quality improvement'],
     },
     {
-      role: 'Project Officer – Child & Community Development',
+      role: 'Project Officer - Child & Community Development',
       organization: 'Laminopabo Child Development Center',
-      period: '2024 – 2025',
+      period: '2024 - 2025',
       location: 'Northern Uganda',
       type: 'Previous Position',
       achievements: [
@@ -62,10 +65,31 @@ export default function Portfolio() {
 
   return (
     <div>
-      <section className="bg-gradient-to-br from-[#0A2A43] to-[#0A2A43]/90 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Seo
+        title="Ronald Obal Experience | MEAL Portfolio & Development Work"
+        description="Review Ronald Obal's MEAL experience across mental health, child protection, trauma care, community development, education, and youth empowerment programs."
+        path="/portfolio"
+        jsonLd={breadcrumbSchema([
+          { name: 'Ronald Obal Official Website', path: '/' },
+          { name: 'Experience', path: '/portfolio' },
+        ])}
+      >
+      </Seo>
+      <section className="bg-gradient-to-br from-[#0A2A43] to-[#0A2A43]/90 text-white py-20 relative overflow-hidden" style={{
+        backgroundImage: 'url(/Experience.JPEG)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}>
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/50" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Portfolio</h1>
+            <Link to="/" className="inline-flex text-[#C9A227] text-xs font-bold uppercase tracking-[0.25em] mb-5 hover:text-white transition-colors">
+              Ronald Obal Official Website
+            </Link>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Experience</h1>
             <p className="text-xl text-gray-200 leading-relaxed">
               A track record of designing and implementing MEAL systems that strengthen program performance across mental health, child protection, trauma care, and community development sectors.
             </p>
@@ -79,7 +103,7 @@ export default function Portfolio() {
             {[
               { label: 'Years of Experience', value: '3+' },
               { label: 'Organizations Engaged', value: '4+' },
-              { label: 'Projects Completed', value: '10+' },
+              { label: 'Projects Completed', value: '5+' },
               { label: 'Beneficiaries Served', value: '1,000+' },
             ].map((stat, index) => (
               <div key={index} className="text-center">

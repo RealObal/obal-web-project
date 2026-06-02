@@ -1,10 +1,27 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { ExternalLink, Search, Clock, ChevronRight, Tag } from 'lucide-react';
 import { createClient } from '@sanity/client';
-import { PortableText } from '@portabletext/react';
+import {
+  PortableText,
+  type PortableTextBlock,
+  type PortableTextComponents,
+  type PortableTextComponentProps,
+  type PortableTextMarkComponentProps,
+  type PortableTextTypeComponentProps,
+} from '@portabletext/react';
+import type { TypedObject } from '@portabletext/types';
 import { createImageUrlBuilder } from '@sanity/image-url';
+import type { SanityImageSource } from '@sanity/image-url';
+import { Seo } from '../lib/seo';
+import {
+  DEFAULT_IMAGE,
+  SITE_URL,
+  X_HANDLE,
+  X_URL,
+  absoluteUrl,
+  breadcrumbSchema,
+} from '../lib/seoData';
 
 const sanity = createClient({
   projectId: 'khbx2r3z',
@@ -14,21 +31,54 @@ const sanity = createClient({
 });
 
 const builder = createImageUrlBuilder(sanity);
-const urlFor = (source: any) => builder.image(source);
+const urlFor = (source: SanityImageSource) => builder.image(source);
 
-const SITE_URL = 'https://ronaldobal.com';
-const X_HANDLE = 'real_obal';
-const X_URL = `https://x.com/${X_HANDLE}`;
 const X_FOLLOW_URL = `https://twitter.com/intent/follow?screen_name=${X_HANDLE}`;
 
-// ── X (Twitter) logo SVG ──────────────────────────────────────────────────────
+interface SanityImageValue extends TypedObject {
+  asset?: {
+    _ref?: string;
+  };
+  alt?: string;
+  caption?: string;
+}
+
+interface LinkMark extends TypedObject {
+  href?: string;
+}
+
+interface CalloutValue extends TypedObject {
+  label?: string;
+  body?: string;
+}
+
+interface BlogPost {
+  _id: string;
+  title: string;
+  mainImage?: SanityImageSource;
+  body?: PortableTextBlock[];
+  created_at?: string;
+  authorName?: string;
+  categories?: string[];
+  slug?: {
+    current?: string;
+  };
+}
+
+function blockToText(block: PortableTextBlock): string {
+  return block.children
+    ?.map((child) => ('text' in child && typeof child.text === 'string' ? child.text : ''))
+    .join('') || '';
+}
+
+// -- X (Twitter) logo SVG ------------------------------------------------------
 const XLogo = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
 
-// ── Reusable X Follow button ──────────────────────────────────────────────────
+// -- Reusable X Follow button --------------------------------------------------
 const XFollowButton = () => (
   <a
     href={X_FOLLOW_URL}
@@ -41,44 +91,44 @@ const XFollowButton = () => (
   </a>
 );
 
-// ── Estimate read time ────────────────────────────────────────────────────────
-function estimateReadTime(body: any[]): number {
+// -- Estimate read time --------------------------------------------------------
+function estimateReadTime(body?: PortableTextBlock[]): number {
   if (!body) return 1;
   const text = body
-    .filter((b: any) => b._type === 'block')
-    .map((b: any) => b.children?.map((c: any) => c.text || '').join('') || '')
+    .filter((b) => b._type === 'block')
+    .map(blockToText)
     .join(' ');
   const words = text.split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.round(words / 200));
 }
 
-// ── Portable Text components ──────────────────────────────────────────────────
-const blogComponents = {
+// -- Portable Text components --------------------------------------------------
+const blogComponents: PortableTextComponents = {
   block: {
-    h1: ({ children }: any) => <h1 className="blog-h1">{children}</h1>,
-    h2: ({ children }: any) => <h2 className="blog-h2">{children}</h2>,
-    h3: ({ children }: any) => <h3 className="blog-h3">{children}</h3>,
-    normal: ({ children }: any) => <p className="blog-p">{children}</p>,
+    h1: ({ children }: PortableTextComponentProps<PortableTextBlock>) => <h1 className="blog-h1">{children}</h1>,
+    h2: ({ children }: PortableTextComponentProps<PortableTextBlock>) => <h2 className="blog-h2">{children}</h2>,
+    h3: ({ children }: PortableTextComponentProps<PortableTextBlock>) => <h3 className="blog-h3">{children}</h3>,
+    normal: ({ children }: PortableTextComponentProps<PortableTextBlock>) => <p className="blog-p">{children}</p>,
   },
   list: {
-    bullet: ({ children }: any) => <ul className="blog-ul">{children}</ul>,
-    number: ({ children }: any) => <ol className="blog-ol">{children}</ol>,
+    bullet: ({ children }) => <ul className="blog-ul">{children}</ul>,
+    number: ({ children }) => <ol className="blog-ol">{children}</ol>,
   },
   marks: {
-    bold: ({ children }: any) => <strong className="font-bold text-gray-900">{children}</strong>,
-    link: ({ value, children }: any) => (
+    bold: ({ children }) => <strong className="font-bold text-gray-900">{children}</strong>,
+    link: ({ value, children }: PortableTextMarkComponentProps<LinkMark>) => (
       <a href={value?.href} target="_blank" rel="noopener noreferrer" className="text-[#C9A227] hover:underline font-medium">
         {children} <ExternalLink size={14} className="inline mb-1" />
       </a>
     ),
   },
   types: {
-    image: ({ value }: any) => {
+    image: ({ value }: PortableTextTypeComponentProps<SanityImageValue>) => {
       if (!value?.asset?._ref) return null;
       return (
         <figure className="my-8">
           <img
-            src={urlFor(value).width(800).url()}
+            src={urlFor(value as SanityImageSource).width(800).url()}
             alt={value.alt || 'Blog image'}
             className="w-full rounded-lg object-cover"
           />
@@ -88,7 +138,7 @@ const blogComponents = {
         </figure>
       );
     },
-    callout: ({ value }: any) => (
+    callout: ({ value }: PortableTextTypeComponentProps<CalloutValue>) => (
       <div className="my-8 rounded-lg border border-gray-300 bg-white px-6 py-5">
         {value.label && (
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-gray-700">
@@ -103,9 +153,9 @@ const blogComponents = {
   },
 };
 
-// ─── SINGLE POST VIEW ─────────────────────────────────────────────────────────
+// --- SINGLE POST VIEW ---------------------------------------------------------
 function SinglePost({ slug }: { slug: string }) {
-  const [post, setPost] = useState<any | null>(null);
+  const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -140,6 +190,43 @@ function SinglePost({ slug }: { slug: string }) {
     : null;
 
   const readTime = estimateReadTime(post.body);
+  const articlePath = `/blog/${post.slug?.current || slug}`;
+  const articleUrl = absoluteUrl(articlePath);
+  const articleDescription = post.body
+    ?.filter((b) => b._type === 'block' && b.style === 'normal')
+    .slice(0, 2)
+    .map(blockToText)
+    .join(' ')
+    .slice(0, 155) || `Read ${post.title} by Ronald Obal.`;
+  const publishedDate = post.created_at || new Date().toISOString();
+  const articleImage = imageUrl || DEFAULT_IMAGE;
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${articleUrl}#blogposting`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': articleUrl,
+    },
+    headline: post.title,
+    description: articleDescription,
+    image: articleImage,
+    datePublished: publishedDate,
+    dateModified: publishedDate,
+    author: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: post.authorName || 'Ronald Obal',
+      url: SITE_URL,
+    },
+    publisher: {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: 'Ronald Obal',
+      url: SITE_URL,
+      image: DEFAULT_IMAGE,
+    },
+  };
 
   return (
     <div className="min-h-screen bg-[#f7f5f0] pb-20">
@@ -153,20 +240,25 @@ function SinglePost({ slug }: { slug: string }) {
         .blog-ul li, .blog-ol li { margin-bottom: 0.5rem; line-height: 1.75; }
       `}</style>
 
-      <Helmet>
-        <title>{post.title} | Ronald Obal Blog</title>
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content={`${SITE_URL}/blog/${post.slug?.current}`} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content="Read this article on Ronald Obal's MEAL Blog" />
-        {imageUrl && <meta property="og:image" content={imageUrl} />}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content={`@${X_HANDLE}`} />
-        <meta name="twitter:title" content={post.title} />
-        {imageUrl && <meta name="twitter:image" content={imageUrl} />}
-        {post.created_at && <meta property="article:published_time" content={post.created_at} />}
+      <Seo
+        title={`${post.title} | Ronald Obal Insights`}
+        description={articleDescription}
+        path={articlePath}
+        type="article"
+        image={articleImage}
+        jsonLd={[
+          articleSchema,
+          breadcrumbSchema([
+            { name: 'Ronald Obal Official Website', path: '/' },
+            { name: 'Insights', path: '/blog' },
+            { name: post.title, path: articlePath },
+          ]),
+        ]}
+      >
+        <meta property="article:published_time" content={publishedDate} />
+        <meta property="article:modified_time" content={publishedDate} />
         <meta property="article:author" content={post.authorName || 'Ronald Obal'} />
-      </Helmet>
+      </Seo>
 
       {/* Post header */}
       <div className="bg-[#0A2A43] text-white py-10">
@@ -174,6 +266,9 @@ function SinglePost({ slug }: { slug: string }) {
           <Link to="/blog" className="inline-flex items-center text-[#C9A227] text-sm font-semibold hover:underline mb-6 group">
             <ChevronRight size={14} className="rotate-180 mr-1 group-hover:-translate-x-1 transition-transform" />
             Back to All Posts
+          </Link>
+          <Link to="/" className="block text-[#C9A227] text-xs font-bold uppercase tracking-[0.25em] mb-5 hover:text-white transition-colors">
+            Ronald Obal Official Website
           </Link>
 
           {post.categories && post.categories.length > 0 && (
@@ -198,9 +293,9 @@ function SinglePost({ slug }: { slug: string }) {
               </span>
               <span>{post.authorName || 'Ronald Obal'}</span>
             </span>
-            <span className="text-gray-500">·</span>
+            <span className="text-gray-500">|</span>
             <span>{formatDate(post.created_at, { month: 'long', day: 'numeric', year: 'numeric' })}</span>
-            <span className="text-gray-500">·</span>
+            <span className="text-gray-500">|</span>
             <span className="flex items-center gap-1"><Clock size={13} /> {readTime} min read</span>
           </div>
         </div>
@@ -214,7 +309,7 @@ function SinglePost({ slug }: { slug: string }) {
         )}
 
         <div className="bg-white rounded-xl shadow-sm p-6 sm:p-10">
-          <PortableText value={post.body} components={blogComponents} />
+          <PortableText value={post.body || []} components={blogComponents} />
         </div>
 
         {/* Post footer: back link + X follow */}
@@ -235,7 +330,7 @@ function SinglePost({ slug }: { slug: string }) {
   );
 }
 
-// ── Safe date formatter ───────────────────────────────────────────────────────
+// -- Safe date formatter -------------------------------------------------------
 function formatDate(dateStr: string | undefined, opts?: Intl.DateTimeFormatOptions): string {
   if (!dateStr) return '';
   const d = new Date(dateStr);
@@ -243,8 +338,8 @@ function formatDate(dateStr: string | undefined, opts?: Intl.DateTimeFormatOptio
   return d.toLocaleDateString('en-US', opts);
 }
 
-// ─── POST CARD ────────────────────────────────────────────────────────────────
-function PostCard({ post }: { post: any }) {
+// --- POST CARD ----------------------------------------------------------------
+function PostCard({ post }: { post: BlogPost }) {
   const imgSrc = post.mainImage
     ? urlFor(post.mainImage).width(600).height(338).fit('crop').url()
     : '/About.JPG';
@@ -252,9 +347,9 @@ function PostCard({ post }: { post: any }) {
   const readTime = estimateReadTime(post.body);
 
   const excerpt = post.body
-    ?.filter((b: any) => b._type === 'block' && b.style === 'normal')
+    ?.filter((b) => b._type === 'block' && b.style === 'normal')
     .slice(0, 2)
-    .map((b: any) => b.children?.map((c: any) => c.text || '').join('') || '')
+    .map(blockToText)
     .join(' ')
     .slice(0, 180) || '';
 
@@ -282,7 +377,7 @@ function PostCard({ post }: { post: any }) {
           </Link>
 
           {excerpt && (
-            <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-3">{excerpt}…</p>
+            <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mb-3">{excerpt}...</p>
           )}
         </div>
 
@@ -292,7 +387,7 @@ function PostCard({ post }: { post: any }) {
               {(post.authorName || 'R').charAt(0)}
             </span>
             <span className="font-medium text-gray-600">{post.authorName || 'Ronald Obal'}</span>
-            <span>·</span>
+            <span>|</span>
             <span>{formatDate(post.created_at, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
           </div>
 
@@ -318,9 +413,9 @@ function PostCard({ post }: { post: any }) {
   );
 }
 
-// ─── BLOG LISTING ─────────────────────────────────────────────────────────────
+// --- BLOG LISTING -------------------------------------------------------------
 function BlogListing() {
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
@@ -337,7 +432,6 @@ function BlogListing() {
     }`;
     sanity.fetch(query)
       .then((data) => {
-        console.log('[Blog] fetched posts:', data?.length ?? 0, data);
         setPosts(data || []);
         setLoading(false);
       })
@@ -370,17 +464,17 @@ function BlogListing() {
 
   return (
     <div className="min-h-screen bg-[#f7f5f0] pb-20">
-      <Helmet>
-        <title>MEAL Insights & Field Notes | Ronald Obal Blog</title>
-        <meta name="description" content="Evidence-based lessons from the field on Monitoring, Evaluation, Accountability, and Learning (MEAL) in social impact programming." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${SITE_URL}/blog`} />
-        <meta property="og:title" content="MEAL Insights & Field Notes | Ronald Obal Blog" />
-        <meta property="og:description" content="Evidence-based lessons from the field on MEAL in social impact programming." />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content={`@${X_HANDLE}`} />
-        <meta name="twitter:title" content="MEAL Insights & Field Notes | Ronald Obal Blog" />
-      </Helmet>
+      <Seo
+        title="Ronald Obal Insights | MEAL Field Notes & Development Learning"
+        description="Read Ronald Obal's insights on Monitoring, Evaluation, Accountability, Research and Learning in social impact, humanitarian, and development programs."
+        path="/blog"
+        twitterCard="summary_large_image"
+        jsonLd={breadcrumbSchema([
+          { name: 'Ronald Obal Official Website', path: '/' },
+          { name: 'Insights', path: '/blog' },
+        ])}
+      >
+      </Seo>
 
       {/* Hero banner with X follow in top-right */}
       <section className="bg-[#0A2A43] text-white py-16 relative overflow-hidden">
@@ -390,6 +484,9 @@ function BlogListing() {
         }} />
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
           <div>
+            <Link to="/" className="inline-flex text-[#C9A227] text-xs font-bold uppercase tracking-[0.25em] mb-5 hover:text-white transition-colors">
+              Ronald Obal Official Website
+            </Link>
             <p className="text-[#C9A227] text-xs font-bold uppercase tracking-[0.3em] mb-3">Ronald Obal</p>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
               MEAL Insights &<br className="hidden sm:block" /> Field Notes
@@ -407,7 +504,7 @@ function BlogListing() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
         <div className="flex flex-col lg:flex-row gap-8">
 
-          {/* ── MAIN FEED ── */}
+          {/* -- MAIN FEED -- */}
           <main className="flex-1 min-w-0">
             {loading ? (
               <div className="flex justify-center py-24">
@@ -427,7 +524,7 @@ function BlogListing() {
             )}
           </main>
 
-          {/* ── SIDEBAR ── */}
+          {/* -- SIDEBAR -- */}
           <aside className="lg:w-72 flex-shrink-0 space-y-6">
 
             {/* Search */}
@@ -437,7 +534,7 @@ function BlogListing() {
                 <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Search posts…"
+                  placeholder="Search posts..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full pl-9 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C9A227]/40 focus:border-[#C9A227]"
@@ -445,7 +542,7 @@ function BlogListing() {
               </div>
             </div>
 
-            {/* Follow on X — mirrors Dr. Smith's sidebar widget */}
+            {/* Follow on X - mirrors Dr. Smith's sidebar widget */}
             <div className="bg-white rounded-xl shadow-sm p-5">
               <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Follow on X (Twitter)</h3>
               <a
@@ -523,7 +620,7 @@ function BlogListing() {
   );
 }
 
-// ─── ROOT EXPORT ──────────────────────────────────────────────────────────────
+// --- ROOT EXPORT --------------------------------------------------------------
 export default function Blog() {
   const { slug } = useParams<{ slug?: string }>();
   return slug ? <SinglePost slug={slug} /> : <BlogListing />;
