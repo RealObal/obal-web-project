@@ -30,8 +30,9 @@ export const siteNavigationSchema = {
     { '@type': 'SiteNavigationElement', position: 2, name: 'About Ronald', url: absoluteUrl('/about') },
     { '@type': 'SiteNavigationElement', position: 3, name: 'MEAL Services', url: absoluteUrl('/services') },
     { '@type': 'SiteNavigationElement', position: 4, name: 'Experience', url: absoluteUrl('/portfolio') },
-    { '@type': 'SiteNavigationElement', position: 5, name: 'Insights', url: absoluteUrl('/blog') },
-    { '@type': 'SiteNavigationElement', position: 6, name: 'Contact', url: absoluteUrl('/contact') },
+    { '@type': 'SiteNavigationElement', position: 5, name: 'Research Portfolio', url: absoluteUrl('/data-analytics-research-portfolio') },
+    { '@type': 'SiteNavigationElement', position: 6, name: 'Insights', url: absoluteUrl('/blog') },
+    { '@type': 'SiteNavigationElement', position: 7, name: 'Contact', url: absoluteUrl('/contact') },
   ],
 };
 

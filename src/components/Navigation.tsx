@@ -25,6 +25,7 @@ export default function Navigation() {
     { name: 'About Ronald', path: '/about' },
     { name: 'MEAL Services', path: '/services' },
     { name: 'Experience', path: '/portfolio' },
+    { name: 'Research Portfolio', path: '/data-analytics-research-portfolio' },
     { name: 'Insights', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];

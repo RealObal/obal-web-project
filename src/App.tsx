@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
 import Portfolio from './pages/Portfolio';
+import DataAnalyticsResearchPortfolio from './pages/DataAnalyticsResearchPortfolio';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 
@@ -16,6 +17,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/data-analytics-research-portfolio" element={<DataAnalyticsResearchPortfolio />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
