@@ -7,6 +7,7 @@ type JsonLdData = unknown | unknown[];
 interface SeoProps {
   title: string;
   description: string;
+  keywords?: string | string[];
   path?: string;
   type?: 'website' | 'profile' | 'article';
   image?: string | null;
@@ -18,6 +19,7 @@ interface SeoProps {
 export function Seo({
   title,
   description,
+  keywords,
   path = '/',
   type = 'website',
   image = DEFAULT_IMAGE,
@@ -27,12 +29,14 @@ export function Seo({
 }: SeoProps) {
   const url = absoluteUrl(path);
   const previewImage = image || DEFAULT_IMAGE;
+  const keywordContent = Array.isArray(keywords) ? keywords.join(', ') : keywords;
   const jsonLdEntries = Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [];
 
   return (
     <Helmet>
       <title>{title}</title>
       <meta name="description" content={description} />
+      {keywordContent && <meta name="keywords" content={keywordContent} />}
       <link rel="canonical" href={url} />
       <meta name="robots" content="index, follow" />
       <meta property="og:type" content={type} />

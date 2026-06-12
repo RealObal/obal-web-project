@@ -153,9 +153,14 @@ export default function Home() {
               MEAL Manager | MEARL Specialist
             </p>
 
-            <h1 className="fade-up d2 home-display text-6xl md:text-8xl font-black text-white leading-none mb-6">
-              Ronald<br />
-              <span className="text-[#C9A227]">Obal</span>
+            <h1
+              className="fade-up d2 home-display text-6xl md:text-8xl font-black text-white leading-none mb-6"
+              aria-label="Ronald Obal"
+            >
+              <span aria-hidden="true">
+                Ronald<br />
+                <span className="text-[#C9A227]">Obal</span>
+              </span>
             </h1>
 
             {/* Quote - mirrors drolum.com hero quote */}
@@ -176,6 +181,12 @@ export default function Home() {
                 className="inline-flex items-center gap-2 bg-[#C9A227] text-[#0A2A43] font-bold px-6 py-3 rounded-full hover:bg-[#b8911f] transition-colors text-sm"
               >
                 More Details <ArrowRight size={15} />
+              </Link>
+              <Link
+                to="/data-analytics-research-portfolio"
+                className="inline-flex items-center gap-2 border border-white/20 text-white font-semibold px-5 py-3 rounded-full hover:border-[#C9A227] hover:text-[#C9A227] transition-colors text-sm"
+              >
+                Explore Research Portfolio <ArrowRight size={15} />
               </Link>
               <Link
                 to="/contact"

@@ -55,6 +55,14 @@ export default function Footer() {
               </li>
               <li>
                 <Link
+                  to="/data-analytics-research-portfolio"
+                  className="text-gray-300 hover:text-[#C9A227] transition-colors"
+                >
+                  Research Portfolio
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/blog"
                   className="text-gray-300 hover:text-[#C9A227] transition-colors"
                 >
