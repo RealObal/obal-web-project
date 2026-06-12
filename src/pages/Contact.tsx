@@ -1,7 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { Mail, Phone, MapPin, Linkedin, Send, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { submitContactForm } from '../lib/supabase';
 import { ContactForm as ContactFormType } from '../types';
 import { Seo } from '../lib/seo';
 import { breadcrumbSchema } from '../lib/seoData';
@@ -23,23 +23,17 @@ export default function Contact() {
     setError('');
     setSuccess(false);
 
-    try {
-      const { error: submitError } = await supabase
-        .from('contact_submissions')
-        .insert([formData]);
+    const result = await submitContactForm(formData);
 
-      if (submitError) throw submitError;
-
+    if (result.ok) {
       setSuccess(true);
       setFormData({ name: '', email: '', phone: '', message: '' });
-
       setTimeout(() => setSuccess(false), 5000);
-    } catch (err) {
-      console.error('Error submitting form:', err);
-      setError('Failed to send message. Please try again or contact me directly via email.');
-    } finally {
-      setLoading(false);
+    } else {
+      setError(result.message);
     }
+
+    setLoading(false);
   };
 
   const handleChange = (

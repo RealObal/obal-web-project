@@ -1,13 +1,7 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install --legacy-peer-deps",
-  "env": {
-    "VITE_API_URL": "https://khbx2r3z.api.sanity.io"
-  },
-  "branches": {
-    "main": { "name": "Production" }
-  },
+  "installCommand": "npm ci --legacy-peer-deps",
   "rewrites": [
     { "source": "/(.*)", "destination": "/" }
   ]

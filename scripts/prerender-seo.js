@@ -47,6 +47,19 @@ const routes = {
       'A track record of designing and implementing MEAL systems that strengthen program performance across social impact sectors.',
     links: [['Ronald Obal Official Website', '/']],
   },
+  '/data-analytics-research-portfolio': {
+    title: 'Uganda MEAL & Data Analytics Portfolio | Ronald Obal',
+    description:
+      'Uganda-based MEAL and data analytics portfolio showcasing DHS research, education data analysis, and monitoring and evaluation consulting.',
+    type: 'article',
+    h1: 'Uganda MEAL & Data Analytics Portfolio',
+    intro:
+      'Research, dashboards, and MEAL evidence products for NGO, donor, and public sector programs in Uganda and East Africa.',
+    links: [
+      ['Ronald Obal Official Website', '/'],
+      ['Contact Ronald Obal', '/contact'],
+    ],
+  },
   '/blog': {
     title: 'Ronald Obal Insights | MEAL Field Notes & Development Learning',
     description:

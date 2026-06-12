@@ -2,10 +2,9 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BarChart3, TrendingUp, Users, FileText, ArrowRight, BookOpen, FlaskConical, Globe } from 'lucide-react';
 import CountUp from 'react-countup';
-import { createClient } from '@sanity/client';
-import { createImageUrlBuilder } from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url';
 import { Seo } from '../lib/seo';
+import { safeSanityFetch, urlFor } from '../lib/sanity';
 import {
   breadcrumbSchema,
   personSchema,
@@ -13,15 +12,6 @@ import {
   siteNavigationSchema,
   websiteSchema,
 } from '../lib/seoData';
-
-const sanity = createClient({
-  projectId: 'khbx2r3z',
-  dataset: 'blog',
-  useCdn: true,
-  apiVersion: '2026-02-26',
-});
-const builder = createImageUrlBuilder(sanity);
-const urlFor = (source: SanityImageSource) => builder.image(source);
 
 interface BlogPostSummary {
   _id: string;
@@ -92,7 +82,8 @@ export default function Home() {
       "authorName": author->name,
       "categories": categories[]->title
     }`;
-    sanity.fetch(q).then((data) => setRecentPosts(data || []));
+    safeSanityFetch<BlogPostSummary[]>(q, undefined, [])
+      .then((data) => setRecentPosts(data || []));
   }, []);
 
   return (

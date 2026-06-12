@@ -1,8 +1,35 @@
-import { createClient } from '@supabase/supabase-js';
+import type { ContactForm } from '../types';
 
-// We provide dummy strings so the library doesn't crash the whole site.
-// Your real keys should be in your .env file, but this prevents a blank screen.
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-key';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+
+export async function submitContactForm(formData: ContactForm) {
+  if (!isSupabaseConfigured) {
+    return {
+      ok: false,
+      message: 'Contact form storage is not configured. Please contact me directly via email.',
+    };
+  }
+
+  try {
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    const { error } = await supabase
+      .from('contact_submissions')
+      .insert([formData]);
+
+    if (error) {
+      return { ok: false, message: error.message };
+    }
+
+    return { ok: true, message: 'Message sent successfully.' };
+  } catch (error) {
+    console.warn('[supabase] contact submission failed.', error);
+    return {
+      ok: false,
+      message: 'Failed to send message. Please contact me directly via email.',
+    };
+  }
+}

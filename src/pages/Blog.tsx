@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ExternalLink, Search, Clock, ChevronRight, Tag } from 'lucide-react';
-import { createClient } from '@sanity/client';
 import {
   PortableText,
   type PortableTextBlock,
@@ -11,10 +10,10 @@ import {
   type PortableTextTypeComponentProps,
 } from '@portabletext/react';
 import type { TypedObject } from '@portabletext/types';
-import { createImageUrlBuilder } from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url';
 import { Seo } from '../lib/seo';
 import { AuthorBio } from '../components/AuthorBio';
+import { safeSanityFetch, urlFor } from '../lib/sanity';
 import {
   DEFAULT_IMAGE,
   SITE_URL,
@@ -23,16 +22,6 @@ import {
   absoluteUrl,
   breadcrumbSchema,
 } from '../lib/seoData';
-
-const sanity = createClient({
-  projectId: 'khbx2r3z',
-  dataset: 'blog',
-  useCdn: true,
-  apiVersion: '2026-02-26',
-});
-
-const builder = createImageUrlBuilder(sanity);
-const urlFor = (source: SanityImageSource) => builder.image(source);
 
 const X_FOLLOW_URL = `https://twitter.com/intent/follow?screen_name=${X_HANDLE}`;
 
@@ -168,10 +157,10 @@ function SinglePost({ slug }: { slug: string }) {
       "categories": categories[]->title,
       "slug": slug
     }`;
-    sanity.fetch(q, { slug }).then((data) => {
+    safeSanityFetch<BlogPost | null>(q, { slug }, null).then((data) => {
       setPost(data || null);
       setLoading(false);
-    }).catch(() => setLoading(false));
+    });
   }, [slug]);
 
   if (loading) return (
@@ -438,14 +427,16 @@ function BlogListing() {
       "authorName": author->name,
       "categories": categories[]->title
     }`;
-    sanity.fetch(query)
+    safeSanityFetch<BlogPost[] | null>(query, undefined, null)
       .then((data) => {
+        if (data === null) {
+          setError('Posts are temporarily unavailable.');
+          setPosts([]);
+          setLoading(false);
+          return;
+        }
+
         setPosts(data || []);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('[Blog] fetch error:', err);
-        setError(err.message || 'Failed to load posts');
         setLoading(false);
       });
   }, []);

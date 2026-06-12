@@ -1,0 +1,1 @@
+import{c,a as o}from"./sanity-VM6YAWsJ.js";const s="khbx2r3z",i="blog",e=c({projectId:s,dataset:i,useCdn:!0,apiVersion:"2026-02-26"}),u=o(e);function f(t){return u.image(t)}async function d(t,a,n=[]){try{return a?await e.fetch(t,a):await e.fetch(t)}catch(r){return console.warn("[sanity] fetch failed; using fallback content.",r),n}}export{d as s,f as u};

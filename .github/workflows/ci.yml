@@ -1,4 +1,4 @@
-name: CI Build and Deploy
+name: CI Build
 
 on:
   push:
@@ -30,29 +30,4 @@ jobs:
         with:
           name: dist
           path: dist
-
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          # ensure the token is available to push
-          persist-credentials: true
-
-      - name: Show current branches (debug)
-        run: git branch -a && git remote -v
-
-      - name: Deploy `dist` to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: gh-pages
-          allow_empty_commit: true
-          force_orphan: true
 
