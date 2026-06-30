@@ -166,33 +166,55 @@ export default function Home() {
               This is the official website of Ronald Obal, a MEAL Manager, Monitoring Evaluation Accountability Research and Learning (MEARL) Specialist, researcher, and development practitioner in Uganda.
             </p>
 
-            <div className="fade-up d4 flex flex-wrap gap-3 mt-8">
-              <Link
-                to="/about"
-                className="inline-flex items-center gap-2 bg-[#C9A227] text-[#0A2A43] font-bold px-6 py-3 rounded-full hover:bg-[#b8911f] transition-colors text-sm"
-              >
-                More Details <ArrowRight size={15} />
-              </Link>
-              <Link
-                to="/data-analytics-research-portfolio"
-                className="inline-flex items-center gap-2 border border-white/20 text-white font-semibold px-5 py-3 rounded-full hover:border-[#C9A227] hover:text-[#C9A227] transition-colors text-sm"
-              >
-                Explore Research Portfolio <ArrowRight size={15} />
-              </Link>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 border border-white/20 text-white font-semibold px-5 py-3 rounded-full hover:border-[#C9A227] hover:text-[#C9A227] transition-colors text-sm"
-              >
-                Contact Ronald <ArrowRight size={15} />
-              </Link>
-              <a
-                href={`https://twitter.com/intent/follow?screen_name=${X_HANDLE}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-black/50 border border-white/10 text-white font-semibold px-5 py-3 rounded-full hover:bg-black transition-colors text-sm"
-              >
-                <XLogo size={13} /> Follow @{X_HANDLE}
-              </a>
+            <div className="fade-up d4 mt-8">
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 bg-[#C9A227] text-[#0A2A43] font-bold px-6 py-3 rounded-full hover:bg-[#b8911f] transition-colors text-sm"
+                >
+                  More Details <ArrowRight size={15} />
+                </Link>
+                <Link
+                  to="/data-analytics-research-portfolio"
+                  className="inline-flex items-center gap-2 border border-white/20 text-white font-semibold px-5 py-3 rounded-full hover:border-[#C9A227] hover:text-[#C9A227] transition-colors text-sm"
+                >
+                  Explore Research Portfolio <ArrowRight size={15} />
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 border border-white/20 text-white font-semibold px-5 py-3 rounded-full hover:border-[#C9A227] hover:text-[#C9A227] transition-colors text-sm"
+                >
+                  Contact Ronald <ArrowRight size={15} />
+                </Link>
+                <a
+                  href={`https://twitter.com/intent/follow?screen_name=${X_HANDLE}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-black/50 border border-white/10 text-white font-semibold px-5 py-3 rounded-full hover:bg-black transition-colors text-sm"
+                >
+                  <XLogo size={13} /> Follow @{X_HANDLE}
+                </a>
+              </div>
+              <div className="mt-4 flex flex-wrap gap-3">
+                <a
+                  href="https://www.researchgate.net/profile/Ronald-Obal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-white font-semibold px-4 py-2 rounded-full hover:bg-white/20 transition-colors text-sm"
+                >
+                  <img src="/ResearchGate%20logo.png" alt="" className="w-4 h-4 object-contain" />
+                  Ronald Obal on ResearchGate
+                </a>
+                <a
+                  href="https://scholar.google.com/citations?user=0ks04t8AAAAJ&hl=en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-white font-semibold px-4 py-2 rounded-full hover:bg-white/20 transition-colors text-sm"
+                >
+                  <img src="/GoogleScholar.png" alt="" className="w-4 h-4 object-contain" />
+                  Google Scholar Profile
+                </a>
+              </div>
             </div>
           </div>
 

@@ -143,7 +143,7 @@ export default function About() {
               <span className="flex items-center gap-2"><Mail size={14} className="text-[#C9A227]" /> ronaldobal20@gmail.com</span>
               <span className="flex items-center gap-2"><Phone size={14} className="text-[#C9A227]" /> +256 776 280 494</span>
             </div>
-            <div className="fade-up delay-4 mt-6">
+            <div className="fade-up delay-4 mt-6 space-y-3">
               <a
                 href={`https://twitter.com/intent/follow?screen_name=${X_HANDLE}`}
                 target="_blank"
@@ -152,6 +152,26 @@ export default function About() {
               >
                 <XLogo size={13} /> Follow @{X_HANDLE}
               </a>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="https://www.researchgate.net/profile/Ronald-Obal"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-white/20 transition-colors"
+                >
+                  <img src="/ResearchGate%20logo.png" alt="" className="w-4 h-4 object-contain" />
+                  Ronald Obal on ResearchGate
+                </a>
+                <a
+                  href="https://scholar.google.com/citations?user=0ks04t8AAAAJ&hl=en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-white/20 transition-colors"
+                >
+                  <img src="/GoogleScholar.png" alt="" className="w-4 h-4 object-contain" />
+                  Google Scholar Profile
+                </a>
+              </div>
             </div>
           </div>
         </div>

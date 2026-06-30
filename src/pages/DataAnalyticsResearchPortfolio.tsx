@@ -151,6 +151,26 @@ const DataAnalyticsPortfolio = () => {
               <a href="#projects" className="bg-[#C9A227] text-[#0A2A43] font-bold px-8 py-3 rounded-full hover:bg-[#b8911f] transition-all">Explore Projects</a>
               <a href="#contact" className="border border-white/20 text-white font-semibold px-8 py-3 rounded-full hover:border-[#C9A227] hover:text-[#C9A227] transition-all">Contact Me</a>
             </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="https://www.researchgate.net/profile/Ronald-Obal"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-white/20 transition-colors"
+              >
+                <img src="/ResearchGate%20logo.png" alt="" className="w-4 h-4 object-contain" />
+                Ronald Obal on ResearchGate
+              </a>
+              <a
+                href="https://scholar.google.com/citations?user=0ks04t8AAAAJ&hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-white/20 transition-colors"
+              >
+                <img src="/GoogleScholar.png" alt="" className="w-4 h-4 object-contain" />
+                Google Scholar Profile
+              </a>
+            </div>
           </div>
           
           <div className="grid grid-cols-2 gap-4 fade-up" style={{ animationDelay: '0.3s' }}>
