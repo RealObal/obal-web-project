@@ -43,6 +43,38 @@ const DataAnalyticsPortfolio = () => {
     { title: "Community Development Dashboard", status: "Planned", icon: Globe }
   ];
 
+  const PUBLICATIONS = [
+    {
+      category: 'Published Research',
+      title: 'Cardiac Tamponade Secondary to Massive Pericardial Effusion in Severe Primary Hypothyroidism: A Case Report',
+      authors: 'James Nelson Okema, Dan Langoya Oriba, Jerom Okot, Ivaan Pitua, Christopher Odong, Donald Otika, Felix Bongomin, Ronald Olum, Ronald Obal',
+      journal: 'International Medical Case Reports Journal',
+      year: '2026',
+      doi: '10.2147/IMCRJ.S610746',
+      url: 'https://doi.org/10.2147/IMCRJ.S610746',
+      description: 'A clinical case report analyzing a rare presentation of severe primary hypothyroidism presenting as cardiac tamponade, highlighting diagnostic and management challenges in resource-limited settings.'
+    },
+    {
+      category: 'Under Review',
+      title: 'Data Collected, Intelligence Lost: The Structural Suppression of Learning in Community-Based MEAL Systems in Post-Conflict Northern Uganda',
+      authors: 'Ronald Obal',
+      journal: 'SocArXiv / OSF Preprints',
+      year: '2026',
+      doi: '10.31219/osf.io/wsd9a_v1',
+      url: 'https://doi.org/10.31219/osf.io/wsd9a_v1',
+      description: 'Examines how community-based MEAL systems are designed for upward donor reporting rather than adaptive learning, proposing a zero-added-burden operational blueprint for local organizations.'
+    },
+    {
+      category: 'Research in Progress',
+      title: 'Drought Impacts on Soybean Production and Smallholder Adaptation: Implications for Food and Nutrition Security in Northern Uganda',
+      authors: 'Ronald Obal, James Nelson Okema',
+      journal: 'ResearchGate Dataset & Preprint',
+      year: '2026',
+      url: 'https://www.researchgate.net/profile/Ronald-Obal',
+      description: 'An empirical study based on survey responses from 384 soybean farmers and 10 years of historical rainfall data (2010–2020) in Omoro District, investigating climate adaptation strategies.'
+    }
+  ];
+
   const skills = [
     { title: "Data Analysis", icon: BarChart3, items: ["SPSS", "Power BI", "Excel", "KoboToolbox"] },
     { title: "Research", icon: FlaskConical, items: ["Quantitative Research", "Qualitative Research", "Systematic Reviews", "Survey Design"] },
@@ -216,27 +248,62 @@ const DataAnalyticsPortfolio = () => {
           <h2 className="display-font text-4xl font-bold text-[#0A2A43] mb-14">Publications</h2>
           
           <div className="space-y-12">
-            {['Published Research', 'Under Review', 'Research in Progress'].map((cat, idx) => (
-              <div key={idx}>
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.28em] text-[#C9A227] font-bold">{cat}</p>
-                    <h3 className="text-2xl font-bold text-[#0A2A43] mt-3">{cat} updates and publications</h3>
-                  </div>
-                  <div className="text-[#0A2A43] text-sm font-semibold">Latest insights</div>
-                </div>
-                <div className="space-y-4">
-                  <div className="bg-[#f7f5f0] p-6 rounded-3xl border border-transparent hover:border-[#C9A227]/30 transition-all">
-                    <div className="flex items-center justify-between mb-3 text-xs uppercase tracking-[0.28em] text-[#C9A227] font-bold">
-                      <span>{cat}</span>
-                      <span>2024</span>
+            {['Published Research', 'Under Review', 'Research in Progress'].map((cat, idx) => {
+              const catPubs = PUBLICATIONS.filter(p => p.category === cat);
+              return (
+                <div key={idx}>
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <p className="text-sm uppercase tracking-[0.28em] text-[#C9A227] font-bold">{cat}</p>
+                      <h3 className="text-2xl font-bold text-[#0A2A43] mt-3">{cat} updates and publications</h3>
                     </div>
-                    <h4 className="text-xl font-semibold text-[#0A2A43]">Representative work and progress summaries</h4>
-                    <p className="mt-3 text-sm text-gray-600">Clear findings that help donors, partners, and program teams understand the impact of research and MEAL engagements.</p>
+                    <div className="text-[#0A2A43] text-sm font-semibold">Latest insights</div>
+                  </div>
+                  <div className="space-y-4">
+                    {catPubs.map((pub, pIdx) => (
+                      <div key={pIdx} className="bg-[#f7f5f0] p-8 rounded-3xl border border-transparent hover:border-[#C9A227]/30 transition-all">
+                        <div className="flex flex-wrap items-center justify-between gap-2 mb-4 text-xs uppercase tracking-[0.28em] text-[#C9A227] font-bold">
+                          <span>{pub.journal}</span>
+                          <span>{pub.year}</span>
+                        </div>
+                        <h4 className="text-xl font-semibold text-[#0A2A43] leading-snug">{pub.title}</h4>
+                        <p className="mt-2 text-xs text-gray-500 font-semibold">Authors: {pub.authors}</p>
+                        <p className="mt-3 text-sm text-gray-600 leading-relaxed">{pub.description}</p>
+                        
+                        {(pub.doi || pub.url) && (
+                          <div className="mt-5 flex flex-wrap gap-4 items-center">
+                            {pub.doi && (
+                              <a 
+                                href={`https://doi.org/${pub.doi}`}
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#0A2A43] bg-white border border-gray-200 px-3 py-1.5 rounded-full hover:border-[#C9A227] hover:text-[#C9A227] transition-all"
+                              >
+                                <span>DOI:</span>
+                                <span className="font-mono text-gray-600">{pub.doi}</span>
+                              </a>
+                            )}
+                            {pub.url && (
+                              <a 
+                                href={pub.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="inline-flex items-center gap-1 text-xs font-bold text-[#C9A227] hover:text-[#0A2A43] transition-colors"
+                              >
+                                View Publication <ArrowRight size={14} />
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    {catPubs.length === 0 && (
+                      <p className="text-sm text-gray-500 italic">No publications listed in this category yet.</p>
+                    )}
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
