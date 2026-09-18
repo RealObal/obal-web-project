@@ -1,0 +1,12 @@
+import React from 'react';
+import {ArrowUpRight,ExternalLink} from 'lucide-react';
+import {services,experiences} from './portfolioImportedData.js';
+const researchLinks=[['ResearchGate','https://www.researchgate.net/profile/Ronald-Obal'],['Google Scholar','https://scholar.google.com/citations?user=0ks04t8AAAAJ&hl=en'],['X / @real_obal','https://x.com/real_obal']];
+export function ImportedSections(){return <>
+<section className="container imported-section" id="experience"><div className="section-heading"><div><span className="eyebrow">PROFESSIONAL EXPERIENCE</span><h2>Practice shaped<br/>by <em>people.</em></h2></div><p>Community development, education, trauma care, and programme learning.</p></div>
+<div className="experience-layout"><img className="context-photo" src="/community-work.webp" alt="A community training session" loading="lazy"/><div>{experiences.map((exp,i)=><details className="experience-item" key={exp.role} open={i===0}><summary><span>{exp.organization}</span><h3>{exp.role}</h3><span>{exp.period} · {exp.location}</span></summary><ul>{exp.achievements.map(a=><li key={a}>{a}</li>)}</ul></details>)}<p className="source-note">Roles and dates shown as listed in the original website.</p></div></div>
+<div className="profile-links">{researchLinks.map(([label,url])=><a key={label} href={url} target="_blank" rel="noopener noreferrer">{label}<ExternalLink size={15}/></a>)}</div>
+</section>
+<section className="container imported-section" id="services"><div className="section-heading"><div><span className="eyebrow">CONSULTANCY & SUPPORT</span><h2>From measurement<br/>to <em>learning.</em></h2></div><p>Practical support for organisations working towards better programme outcomes.</p></div><div className="services-grid">{services.map(s=><details className="service-card" key={s.title}><summary><h3>{s.title}</h3><p>{s.description}</p><span>Explore support +</span></summary><ul>{s.features.map(f=><li key={f}>{f}</li>)}</ul></details>)}</div></section>
+<section className="container imported-section" id="insights"><div className="insights-banner"><img src="/M&E collab.png" alt="Monitoring and evaluation collaboration" loading="lazy"/><div><span className="eyebrow">MEAL INSIGHTS & FIELD NOTES</span><h2>Learning beyond<br/><em>the numbers.</em></h2><p>Reflections on monitoring, evaluation, accountability, research, and community development.</p><a className="button primary" href="/blog/">Read my insights<ArrowUpRight size={17}/></a></div></div></section>
+</>;}

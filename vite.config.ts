@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
+import { work } from './src/portfolioData.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
@@ -20,7 +21,7 @@ export default defineConfig(async ({ command }) => {
       plugins.push(
         vitePrerender({
           staticDir: path.join(__dirname, 'dist'),
-          routes: ['/', '/about', '/services', '/portfolio', '/data-analytics-research-portfolio', '/blog', '/contact'],
+          routes: ['/', '/about', '/services', '/portfolio', '/data-analytics-research-portfolio', '/blog', '/contact', ...work.map((item) => `/work/${item.id}`)],
           renderer: new Renderer({
             headless: true,
             renderAfterTime: 1500,

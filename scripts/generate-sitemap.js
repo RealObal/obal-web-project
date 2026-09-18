@@ -1,6 +1,7 @@
 import { createClient } from '@sanity/client';
 import fs from 'fs';
 import path from 'path';
+import { work } from '../src/portfolioData.js';
 
 const BASE_URL = 'https://ronaldobal.com';
 
@@ -13,6 +14,10 @@ const staticPages = [
   { url: '/blog', priority: '0.6', changefreq: 'weekly' },
   { url: '/contact', priority: '0.5', changefreq: 'monthly' },
 ];
+
+for (const item of work) {
+  staticPages.push({ url: `/work/${item.id}`, priority: '0.7', changefreq: 'monthly' });
+}
 
 function buildSitemap(posts = []) {
   let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';

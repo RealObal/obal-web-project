@@ -1,14 +1,8 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import PortfolioExperience from './PortfolioExperience.jsx';
 
-const Home = lazy(() => import('./pages/Home'));
-const About = lazy(() => import('./pages/About'));
-const Services = lazy(() => import('./pages/Services'));
-const Portfolio = lazy(() => import('./pages/Portfolio'));
-const DataAnalyticsResearchPortfolio = lazy(() => import('./pages/DataAnalyticsResearchPortfolio'));
 const Blog = lazy(() => import('./pages/Blog'));
-const Contact = lazy(() => import('./pages/Contact'));
 
 function RouteFallback() {
   return (
@@ -18,23 +12,28 @@ function RouteFallback() {
   );
 }
 
+function PortfolioRoute() {
+  const location = useLocation();
+  return <PortfolioExperience initialPath={location.pathname} />;
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Suspense fallback={<RouteFallback />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/data-analytics-research-portfolio" element={<DataAnalyticsResearchPortfolio />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<Blog />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
-        </Suspense>
-      </Layout>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<Blog />} />
+          <Route path="/work/:id" element={<PortfolioRoute />} />
+          <Route path="/" element={<PortfolioRoute />} />
+          <Route path="/about" element={<PortfolioRoute />} />
+          <Route path="/services" element={<PortfolioRoute />} />
+          <Route path="/portfolio" element={<PortfolioRoute />} />
+          <Route path="/data-analytics-research-portfolio" element={<PortfolioRoute />} />
+          <Route path="/contact" element={<PortfolioRoute />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
