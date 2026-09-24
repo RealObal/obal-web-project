@@ -13,7 +13,7 @@ const SEO = ({ title, description, path, jsonLd }) => (
   <React.Fragment>
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={`https://ronaldobal.com${path}`} />
+    <link rel="canonical" href={`https://www.ronaldobal.com${path}`} />
     {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
   </React.Fragment>
 );
@@ -87,7 +87,7 @@ const DataAnalyticsPortfolio = () => {
     "@graph": [
       {
         "@type": "Person",
-        "@id": "https://ronaldobal.com/#person",
+        "@id": "https://www.ronaldobal.com/#person",
         "name": "Ronald Obal",
         "jobTitle": "MEAL Manager & Data Analyst"
       },
@@ -95,7 +95,7 @@ const DataAnalyticsPortfolio = () => {
         "@type": "ResearchProject",
         "name": "Educational Inequality in Uganda: Evidence from DHS 2024–25",
         "description": "Investigates household wealth, geography, and gender influences on educational outcomes.",
-        "author": { "@id": "https://ronaldobal.com/#person" }
+        "author": { "@id": "https://www.ronaldobal.com/#person" }
       }
     ]
   };

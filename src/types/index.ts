@@ -12,6 +12,8 @@ export interface BlogPost {
 }
 
 export interface ContactForm {
+  consent?: boolean;
+  website?: string;
   name: string;
   email: string;
   phone: string;

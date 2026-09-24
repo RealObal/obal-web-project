@@ -1,6 +1,6 @@
-export const SITE_URL = 'https://ronaldobal.com';
+export const SITE_URL = 'https://www.ronaldobal.com';
 export const SITE_NAME = 'Ronald Obal';
-export const DEFAULT_IMAGE = `${SITE_URL}/ronald-profile.PNG`;
+export const DEFAULT_IMAGE = `${SITE_URL}/media/ronald-profile-1024.webp`;
 export const LINKEDIN_URL = 'https://linkedin.com/in/ronaldobal';
 export const X_HANDLE = 'real_obal';
 export const X_URL = `https://x.com/${X_HANDLE}`;
@@ -27,12 +27,14 @@ export const siteNavigationSchema = {
   '@type': 'ItemList',
   itemListElement: [
     { '@type': 'SiteNavigationElement', position: 1, name: 'Ronald Obal', url: absoluteUrl('/') },
-    { '@type': 'SiteNavigationElement', position: 2, name: 'About Ronald', url: absoluteUrl('/about') },
-    { '@type': 'SiteNavigationElement', position: 3, name: 'MEAL Services', url: absoluteUrl('/services') },
-    { '@type': 'SiteNavigationElement', position: 4, name: 'Experience', url: absoluteUrl('/portfolio') },
-    { '@type': 'SiteNavigationElement', position: 5, name: 'Research Portfolio', url: absoluteUrl('/data-analytics-research-portfolio') },
+    { '@type': 'SiteNavigationElement', position: 2, name: 'About Ronald', url: absoluteUrl('/#profile') },
+    { '@type': 'SiteNavigationElement', position: 3, name: 'MEAL Services', url: absoluteUrl('/#services') },
+    { '@type': 'SiteNavigationElement', position: 4, name: 'Experience', url: absoluteUrl('/#experience') },
+    { '@type': 'SiteNavigationElement', position: 5, name: 'Research Portfolio', url: absoluteUrl('/#work') },
     { '@type': 'SiteNavigationElement', position: 6, name: 'Insights', url: absoluteUrl('/blog') },
-    { '@type': 'SiteNavigationElement', position: 7, name: 'Contact', url: absoluteUrl('/contact') },
+    { '@type': 'SiteNavigationElement', position: 7, name: 'Contact', url: absoluteUrl('/#contact') },
+    { '@type': 'SiteNavigationElement', position: 8, name: 'Publications', url: absoluteUrl('/publications') },
+    { '@type': 'SiteNavigationElement', position: 9, name: 'Gallery', url: absoluteUrl('/gallery') },
   ],
 };
 

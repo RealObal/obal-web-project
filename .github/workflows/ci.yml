@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies (use legacy peer deps to avoid CI failures)
@@ -24,6 +24,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Verify rendered pages and form safeguards
+        run: npm run test:site
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

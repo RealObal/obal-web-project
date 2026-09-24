@@ -1,9 +1,9 @@
-import { useEffect, useMemo, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react';
 import { absoluteUrl, DEFAULT_IMAGE, SITE_NAME, X_HANDLE } from './seoData';
 
 type JsonLdData = unknown | unknown[];
 
-interface SeoProps {
+export interface SeoProps {
   title: string;
   description: string;
   keywords?: string | string[];
@@ -13,7 +13,12 @@ interface SeoProps {
   twitterCard?: 'summary' | 'summary_large_image';
   jsonLd?: JsonLdData;
   children?: ReactNode;
+  noindex?: boolean;
+  publishedAt?: string;
+  modifiedAt?: string;
 }
+
+export const SeoCollector = createContext<((props: SeoProps) => void) | null>(null);
 
 function setMeta(selector: string, attributes: Record<string, string>) {
   let element = document.head.querySelector<HTMLMetaElement>(selector);
@@ -34,7 +39,12 @@ export function Seo({
   twitterCard = 'summary_large_image',
   jsonLd,
   children,
+  noindex = false,
+  publishedAt,
+  modifiedAt,
 }: SeoProps) {
+  const collect = useContext(SeoCollector);
+  collect?.({ title, description, path, type, image, twitterCard, jsonLd, noindex, publishedAt, modifiedAt });
   const url = absoluteUrl(path);
   const previewImage = image || DEFAULT_IMAGE;
   const keywordContent = Array.isArray(keywords) ? keywords.join(', ') : keywords;
@@ -44,7 +54,12 @@ export function Seo({
     const isPublicHost = ['ronaldobal.com', 'www.ronaldobal.com'].includes(window.location.hostname);
     document.title = title;
     setMeta('meta[name="description"]', { name: 'description', content: description });
-    setMeta('meta[name="robots"]', { name: 'robots', content: isPublicHost ? 'index, follow' : 'noindex, nofollow' });
+    const indexable = isPublicHost && document.documentElement.dataset.indexable !== 'false' && !noindex;
+    setMeta('meta[name="robots"]', { name: 'robots', content: indexable ? 'index, follow' : 'noindex, nofollow' });
+    document.head.querySelectorAll('meta[property^="article:"]').forEach(node => node.remove());
+    if (publishedAt) setMeta('meta[property="article:published_time"]', { property: 'article:published_time', content: publishedAt });
+    if (modifiedAt) setMeta('meta[property="article:modified_time"]', { property: 'article:modified_time', content: modifiedAt });
+    if (!keywordContent) document.head.querySelector('meta[name="keywords"]')?.remove();
     if (keywordContent) setMeta('meta[name="keywords"]', { name: 'keywords', content: keywordContent });
     setMeta('meta[property="og:type"]', { property: 'og:type', content: type });
     setMeta('meta[property="og:url"]', { property: 'og:url', content: url });
@@ -74,7 +89,7 @@ export function Seo({
       script.textContent = JSON.stringify(data).replace(/</g, '\\u003c');
       document.head.appendChild(script);
     });
-  }, [description, jsonLdEntries, keywordContent, previewImage, title, twitterCard, type, url]);
+  }, [description, jsonLdEntries, keywordContent, previewImage, title, twitterCard, type, url, noindex, publishedAt, modifiedAt]);
 
   return children ? <>{children}</> : null;
 }

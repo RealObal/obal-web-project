@@ -1,35 +1,11 @@
 import type { ContactForm } from '../types';
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
-
+export const isSupabaseConfigured = import.meta.env.VITE_CONTACT_ENABLED === 'true';
 export async function submitContactForm(formData: ContactForm) {
-  if (!isSupabaseConfigured) {
-    return {
-      ok: false,
-      message: 'Contact form storage is not configured. Please contact me directly via email.',
-    };
-  }
-
+  if (!isSupabaseConfigured) return {ok:false,message:'Please email ronaldobal20@gmail.com to send your enquiry.'};
+  if (!formData.consent) return {ok:false,message:'Please confirm permission to process your enquiry.'};
   try {
-    const { createClient } = await import('@supabase/supabase-js');
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    const { error } = await supabase
-      .from('contact_submissions')
-      .insert([formData]);
-
-    if (error) {
-      return { ok: false, message: error.message };
-    }
-
-    return { ok: true, message: 'Message sent successfully.' };
-  } catch (error) {
-    console.warn('[supabase] contact submission failed.', error);
-    return {
-      ok: false,
-      message: 'Failed to send message. Please contact me directly via email.',
-    };
-  }
+    const response = await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...formData,privacyVersion:'2026-09-24'}),signal:AbortSignal.timeout(15000)});
+    const result = await response.json();
+    return {ok:response.ok && result.ok === true,message:typeof result.message === 'string' ? result.message : 'Unable to send your message.'};
+  } catch {return {ok:false,message:'Unable to send your message. Please email ronaldobal20@gmail.com.'};}
 }

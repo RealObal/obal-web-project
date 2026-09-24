@@ -1,0 +1,98 @@
+{
+  "/About image.JPEG": {
+    "src": "/media/about-image-1280.webp",
+    "width": 1280,
+    "height": 960,
+    "srcSet": "/media/about-image-480.webp 480w, /media/about-image-800.webp 800w, /media/about-image-1280.webp 1280w"
+  },
+  "/About.JPG": {
+    "src": "/media/about-1280.webp",
+    "width": 1280,
+    "height": 1707,
+    "srcSet": "/media/about-480.webp 480w, /media/about-800.webp 800w, /media/about-1280.webp 1280w"
+  },
+  "/chart-data-desk.jpg": {
+    "src": "/media/chart-data-desk-1280.webp",
+    "width": 1280,
+    "height": 640,
+    "srcSet": "/media/chart-data-desk-480.webp 480w, /media/chart-data-desk-800.webp 800w, /media/chart-data-desk-1280.webp 1280w"
+  },
+  "/community-work.webp": {
+    "src": "/media/community-work-900.webp",
+    "width": 900,
+    "height": 1200,
+    "srcSet": "/media/community-work-480.webp 480w, /media/community-work-800.webp 800w, /media/community-work-900.webp 900w"
+  },
+  "/Experience.JPEG": {
+    "src": "/media/experience-1020.webp",
+    "width": 1020,
+    "height": 574,
+    "srcSet": "/media/experience-480.webp 480w, /media/experience-800.webp 800w, /media/experience-1020.webp 1020w"
+  },
+  "/GoogleScholar.png": {
+    "src": "/media/googlescholar-182.webp",
+    "width": 182,
+    "height": 148,
+    "srcSet": "/media/googlescholar-182.webp 182w"
+  },
+  "/Hero image.JPG": {
+    "src": "/media/hero-image-1280.webp",
+    "width": 1280,
+    "height": 960,
+    "srcSet": "/media/hero-image-480.webp 480w, /media/hero-image-800.webp 800w, /media/hero-image-1280.webp 1280w"
+  },
+  "/Logo1.png": {
+    "src": "/media/logo1-800.webp",
+    "width": 800,
+    "height": 533,
+    "srcSet": "/media/logo1-480.webp 480w, /media/logo1-800.webp 800w"
+  },
+  "/Logo2.png": {
+    "src": "/media/logo2-1280.webp",
+    "width": 1280,
+    "height": 853,
+    "srcSet": "/media/logo2-480.webp 480w, /media/logo2-800.webp 800w, /media/logo2-1280.webp 1280w"
+  },
+  "/M&E collab.png": {
+    "src": "/media/m-e-collab-800.webp",
+    "width": 800,
+    "height": 533,
+    "srcSet": "/media/m-e-collab-480.webp 480w, /media/m-e-collab-800.webp 800w"
+  },
+  "/Power Bi.jpg": {
+    "src": "/media/power-bi-299.webp",
+    "width": 299,
+    "height": 169,
+    "srcSet": "/media/power-bi-299.webp 299w"
+  },
+  "/POWR.jpg": {
+    "src": "/media/powr-291.webp",
+    "width": 291,
+    "height": 173,
+    "srcSet": "/media/powr-291.webp 291w"
+  },
+  "/Problem.JPG": {
+    "src": "/media/problem-1280.webp",
+    "width": 1280,
+    "height": 960,
+    "srcSet": "/media/problem-480.webp 480w, /media/problem-800.webp 800w, /media/problem-1280.webp 1280w"
+  },
+  "/ResearchGate logo.png": {
+    "src": "/media/researchgate-logo-186.webp",
+    "width": 186,
+    "height": 148,
+    "srcSet": "/media/researchgate-logo-186.webp 186w"
+  },
+  "/ronald-portrait.webp": {
+    "src": "/media/ronald-portrait-720.webp",
+    "width": 720,
+    "height": 900,
+    "srcSet": "/media/ronald-portrait-480.webp 480w, /media/ronald-portrait-720.webp 720w"
+  },
+  "/ronald-profile.PNG": {
+    "src": "/media/ronald-profile-1024.webp",
+    "width": 1024,
+    "height": 1536,
+    "srcSet": "/media/ronald-profile-480.webp 480w, /media/ronald-profile-800.webp 800w, /media/ronald-profile-1024.webp 1024w"
+  }
+}

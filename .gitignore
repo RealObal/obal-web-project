@@ -10,6 +10,7 @@ node_modules
 
 # production
 /build
+/sanity/dist/
 
 # misc
 .DS_Store
@@ -30,3 +31,5 @@ ts-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/.build/
