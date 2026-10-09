@@ -77,7 +77,7 @@ work.unshift({
     "Lack of awareness of where to access screening services was the most commonly cited barrier (52.1%).",
     "Findings describe the sampled population in Pece-Laroo Division; they are not a national prevalence estimate."
   ],
-  "evidence": "Scientific Reports · Article in Press · Accepted 25 September 2026. Title, authorship and study details verified against the publisher PDF supplied by Ronald Obal. The paper carries the permanent DOI 10.1038/s41598-026-73925-6.",
+  "evidence": "Scientific Reports · Article in Press · Accepted 25 September 2026 · DOI: 10.1038/s41598-026-73925-6.",
   "citation": "Bwamiki, D. K., Okema, J. N., Lunyuta, S. O., Opaci, I., Abor, M. A., Acomo, G., Obal, R., Pitua, I., Bongomin, F., & Akello, F. (2026). Uptake of sickle cell screening among sexually active unmarried young adults in Gulu City, northern Uganda: a community-based cross-sectional study. Scientific Reports. Article in Press. https://doi.org/10.1038/s41598-026-73925-6",
   "source": "https://doi.org/10.1038/s41598-026-73925-6",
   "sourceLabel": "Read the publication",
@@ -103,7 +103,7 @@ work.unshift({
     "Sole author: Ronald Obal; affiliation supplied as Gulu University.",
     "Preprint version 1 · July 2026 · Creative Commons Attribution 4.0 (CC BY 4.0)."
   ],
-  "evidence": "Title, authorship, Gulu University affiliation, July 2026 date, preprint status and CC BY 4.0 licence supplied by Ronald Obal. Consult the DOI record for the full text and version details.",
+  "evidence": "Ronald Obal · Gulu University · July 2026 · Preprint, version 1 · CC BY 4.0 · DOI: 10.21203/rs.3.rs-10314220/v1.",
   "citation": "Obal, R. (2026). Community-Based Experiential Learning as a Missing Pillar of Competence-Based Higher Education in Uganda: Lessons from Northern Uganda. Preprint, version 1. https://doi.org/10.21203/rs.3.rs-10314220/v1",
   "source": "https://doi.org/10.21203/rs.3.rs-10314220/v1",
   "sourceLabel": "Read the preprint",
