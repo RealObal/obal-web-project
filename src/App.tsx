@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import PortfolioExperience from './PortfolioExperience.jsx';
 
+import About from './pages/About';
 import Blog from './pages/Blog';
 import Publications from './pages/Publications';
 import Gallery from './pages/Gallery';
@@ -37,7 +38,7 @@ export function SiteRoutes() {
           <Route path="/blog/:slug" element={<Blog />} />
           <Route path="/work/:id" element={<WorkPage />} />
           <Route path="/" element={<PortfolioRoute />} />
-          <Route path="/about" element={<Navigate to="/#profile" replace />} />
+          <Route path="/about" element={<About />} />
           <Route path="/services" element={<Navigate to="/#services" replace />} />
           <Route path="/portfolio" element={<Navigate to="/#experience" replace />} />
           <Route path="/data-analytics-research-portfolio" element={<Navigate to="/#work" replace />} />
@@ -54,3 +55,4 @@ export function SiteRoutes() {
 export default function App() {
   return <ContentContext.Provider value={readContentSnapshot()}><BrowserRouter><SiteRoutes/></BrowserRouter></ContentContext.Provider>;
 }
+

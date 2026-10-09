@@ -3,14 +3,14 @@ import LegalLinks from '../components/LegalLinks';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import SiteHeader from '../components/SiteHeader';
+import { fieldPhotos } from '../galleryPhotos';
 import { Seo } from '../lib/seo';
 
 const photos = [
+  ...fieldPhotos,
   {src:'/Problem.JPG', title:'Programme planning', description:'Workshop and programme planning.'},
   {src:'/community-work.webp', title:'Community learning', description:'Community engagement and learning.'},
-  {src:'/About.JPG', title:'Learning together', description:'Facilitated group learning.'},
   {src:'/About%20image.JPEG', title:'Reflection in practice', description:'Reflection and shared learning.'},
-  {src:'/Experience.JPEG', title:'Community connections', description:'Community development in practice.'},
   {src:'/M%26E%20collab.png', title:'Working together', description:'Monitoring and evaluation collaboration.'},
 ];
 

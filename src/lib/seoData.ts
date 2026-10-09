@@ -27,7 +27,7 @@ export const siteNavigationSchema = {
   '@type': 'ItemList',
   itemListElement: [
     { '@type': 'SiteNavigationElement', position: 1, name: 'Ronald Obal', url: absoluteUrl('/') },
-    { '@type': 'SiteNavigationElement', position: 2, name: 'About Ronald', url: absoluteUrl('/#profile') },
+    { '@type': 'SiteNavigationElement', position: 2, name: 'About Ronald', url: absoluteUrl('/about') },
     { '@type': 'SiteNavigationElement', position: 3, name: 'MEAL Services', url: absoluteUrl('/#services') },
     { '@type': 'SiteNavigationElement', position: 4, name: 'Experience', url: absoluteUrl('/#experience') },
     { '@type': 'SiteNavigationElement', position: 5, name: 'Research Portfolio', url: absoluteUrl('/#work') },
@@ -97,3 +97,4 @@ export const profilePageSchema = {
     '@id': `${SITE_URL}/#website`,
   },
 };
+

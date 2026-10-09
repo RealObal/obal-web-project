@@ -15,6 +15,10 @@ export interface WorkItem {
   takeaways: string[];
   evidence: string;
   citation?: string;
+  image?: string;
+  imagePosition?: string;
+  imageCaption?: string;
 }
 
 export const work: WorkItem[];
+

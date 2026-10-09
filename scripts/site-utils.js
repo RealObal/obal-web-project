@@ -1,6 +1,6 @@
 export const SITE_URL = 'https://www.ronaldobal.com';
-export const redirects = { '/home':'/', '/about':'/#profile', '/services':'/#services', '/portfolio':'/#experience', '/data-analytics-research-portfolio':'/#work', '/contact':'/#contact' };
-export const staticRoutes = ['/', '/publications', '/gallery', '/blog', '/privacy', '/terms'];
+export const redirects = { '/home':'/', '/services':'/#services', '/portfolio':'/#experience', '/data-analytics-research-portfolio':'/#work', '/contact':'/#contact' };
+export const staticRoutes = ['/', '/about', '/publications', '/gallery', '/blog', '/privacy', '/terms'];
 export const escapeXml = value => String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&apos;');
 export const safeJson = value => JSON.stringify(value).replaceAll('<','\\u003c').replaceAll('\u2028','\\u2028').replaceAll('\u2029','\\u2029');
 export function postPath(slug) {
@@ -25,3 +25,4 @@ export function headMarkup(meta, indexable) {
   const schemas = meta.jsonLd ? (Array.isArray(meta.jsonLd) ? meta.jsonLd : [meta.jsonLd]) : [];
   return `<title>${escapeXml(meta.title)}</title><link rel="canonical" href="${escapeXml(url)}">` + Object.entries(tags).map(([name,value]) => `<meta name="${name}" content="${escapeXml(value)}">`).join('') + Object.entries(og).map(([name,value]) => `<meta property="${name}" content="${escapeXml(value)}">`).join('') + schemas.filter(Boolean).map(schema=>`<script type="application/ld+json" data-site-jsonld="true">${safeJson(schema)}</script>`).join('');
 }
+
