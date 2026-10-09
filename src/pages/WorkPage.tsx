@@ -17,7 +17,7 @@ export default function WorkPage() {
     {item.id === 'drought-soya-bean' && <figure className="research-field-photo"><MediaImage src={item.image} alt="Ronald Obal and a participant examining produce in a cultivated field" fetchPriority="high"/><figcaption>{item.imageCaption}</figcaption></figure>}
     <dl><dt>Role / contribution</dt><dd>{item.role}</dd><dt>Context</dt><dd>{item.context}</dd></dl>
     <h2>Overview</h2><p>{item.detail}</p><h2>At a glance</h2><ul>{item.takeaways.map(point => <li key={point}>{point}</li>)}</ul>
-    <h2>Evidence & source</h2><p>{item.evidence}</p>{item.citation && <p>{item.citation}</p>}
+    {item.source?.startsWith('https://doi.org/') ? <><h2>DOI</h2><p><a href={item.source} target="_blank" rel="noopener noreferrer">{item.source.replace('https://doi.org/', '')}</a></p></> : <><h2>Evidence &amp; source</h2><p>{item.evidence}</p></>}
     {item.source && <a className="button primary" href={item.source} target="_blank" rel="noopener noreferrer">{item.sourceLabel}</a>}
     <p><a href="/#work">Explore all work</a></p>
   </main><footer className="container footer"><LegalLinks/></footer></>;

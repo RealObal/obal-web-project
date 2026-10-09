@@ -83,6 +83,32 @@ work.unshift({
   "sourceLabel": "Read the publication",
   "featured": true
 });
+work.unshift({
+  "id": "community-based-experiential-learning",
+  "type": "Research",
+  "title": "Community-based experiential learning in higher education",
+  "fullTitle": "Community-Based Experiential Learning as a Missing Pillar of Competence-Based Higher Education in Uganda: Lessons from Northern Uganda",
+  "summary": "A July 2026 preprint by Ronald Obal exploring community-based experiential learning as a pillar of competence-based higher education in Uganda, drawing lessons from Northern Uganda.",
+  "year": "July 2026",
+  "status": "Preprint",
+  "theme": "Education & protection",
+  "skills": [],
+  "visual": "publication",
+  "role": "Author — Ronald Obal",
+  "context": "Higher education · Northern Uganda",
+  "detail": "This preprint examines the place of community-based experiential learning in competence-based higher education in Uganda. The work connects higher education with community experience and lessons from Northern Uganda. Version 1 is identified by the DOI below; it is a preprint and has not been presented here as a peer-reviewed journal publication.",
+  "takeaways": [
+    "Focus: community-based experiential learning and competence-based higher education.",
+    "Geographic context: Uganda, with lessons from Northern Uganda.",
+    "Sole author: Ronald Obal; affiliation supplied as Gulu University.",
+    "Preprint version 1 · July 2026 · Creative Commons Attribution 4.0 (CC BY 4.0)."
+  ],
+  "evidence": "Title, authorship, Gulu University affiliation, July 2026 date, preprint status and CC BY 4.0 licence supplied by Ronald Obal. Consult the DOI record for the full text and version details.",
+  "citation": "Obal, R. (2026). Community-Based Experiential Learning as a Missing Pillar of Competence-Based Higher Education in Uganda: Lessons from Northern Uganda. Preprint, version 1. https://doi.org/10.21203/rs.3.rs-10314220/v1",
+  "source": "https://doi.org/10.21203/rs.3.rs-10314220/v1",
+  "sourceLabel": "Read the preprint",
+  "featured": true
+});
 const workPhotos={
   'drought-soya-bean':{image:'/agricultural-field-visit.webp',imagePosition:'center 40%',imageCaption:'Agricultural field visit'},
   'laminopabo-yata':{image:'/Problem.JPG',imagePosition:'center 45%',imageCaption:'Programme planning workshop'},
