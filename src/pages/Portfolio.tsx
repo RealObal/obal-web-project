@@ -1,56 +1,10 @@
+import { experiences } from '../portfolioImportedData.js';
 import { Briefcase, Calendar, MapPin, Award, TrendingUp, Users, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Seo } from '../lib/seo';
 import { breadcrumbSchema } from '../lib/seoData';
 
 export default function Portfolio() {
-  const experiences = [
-    {
-      role: 'MEAL Manager',
-      organization: 'Laminopabo Child and Youth Development Center',
-      period: '2025 - Present',
-      location: 'Gulu & Kampala, Uganda',
-      type: 'Current Position',
-      achievements: [
-        'Designed and managed MEAL systems for mental health and addiction recovery programs',
-        'Led data collection, case tracking, and client progress monitoring',
-        'Strengthened program accountability and reporting systems',
-        'Supported learning for counseling, rehabilitation, and advocacy programs',
-      ],
-      impact: ['Improved program quality', 'Enhanced accountability', 'Data-driven decisions'],
-    },
-    {
-      role: 'MEARL Assistant',
-      organization: 'Life + Limb Trauma Care Foundation Uganda Chapter',
-      period: '2025',
-      location: 'Uganda (Nationwide)',
-      type: 'Previous Position',
-      achievements: [
-        'Established national MEARL system for trauma care programs across Uganda',
-        'Developed tools, data flows, and reporting structures',
-        'Supported scale-up from Northern Uganda to nationwide operations',
-        'Strengthened monitoring for emergency trauma response programs',
-      ],
-      impact: ['National scale-up', 'Systematic monitoring', 'Quality improvement'],
-    },
-    {
-      role: 'Project Officer - Child & Community Development',
-      organization: 'Laminopabo Child Development Center',
-      period: '2024 - 2025',
-      location: 'Northern Uganda',
-      type: 'Previous Position',
-      achievements: [
-        'Successfully reintegrated 31 school dropouts through home visits, counseling, and ICT support',
-        'Trained 52 caregivers in baking & horticulture, with 24 starting independent enterprises',
-        'Implemented financial literacy programs & supported VSLA formation',
-        'Represented the center in district-level advocacy and planning platforms',
-        'Conducted youth monitoring presented on Speak FM (EU-funded YATA initiative)',
-        'Led positive parenting training for 1000+ caregivers',
-      ],
-      impact: ['31 children reintegrated', '1000+ caregivers trained', '24 enterprises started'],
-    },
-  ];
-
   const communityWork = [
     {
       title: 'Community Development & Advocacy',

@@ -50,3 +50,6 @@
 .about-education li:nth-child(odd){grid-column:1;grid-row:auto}.about-education li:nth-child(even){grid-column:2;grid-row:auto}.about-education li{margin-bottom:24px}.about-education .education-date{font-weight:700;color:var(--green);font-size:16px}.about-education ol:before{background:linear-gradient(to bottom,#b48229,#b9c5ae)}
 @media(max-width:650px){.about-education li:nth-child(n){grid-column:1}}
 .research-field-photo{margin:32px 0;max-width:960px}.research-field-photo img{display:block;width:100%;height:auto;border-radius:8px}.research-field-photo figcaption{margin-top:10px;font-size:13px;color:var(--muted)}
+
+.experience-item .experience-type{display:block;margin-top:6px;font-weight:600}.experience-layout>div{min-width:0}.experience-item summary{overflow-wrap:anywhere}
+.card-meta{flex-wrap:wrap}.card-meta>span{max-width:100%;overflow-wrap:anywhere}

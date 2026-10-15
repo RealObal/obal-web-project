@@ -12,6 +12,51 @@ export const tools = [
 ];
 tools.push({name:'ODK',short:'ODK',group:'Collect & organise',description:'Digital survey forms and field data collection.',color:'blue'},{name:'SurveyCTO',short:'CTO',group:'Collect & organise',description:'Survey programming, collection workflows, and data quality checks.',color:'orange'},{name:'Outcome Harvesting',short:'OH',group:'Design & learn',description:'Identify, document, and interpret programme outcomes.',color:'green'});
 export const work = [
+{
+  "id": "gchi-meal-systems",
+  "type": "M&E work",
+  "title": "MEAL framework and data systems at GCHI",
+  "fullTitle": "MEAL framework and data management systems for Gen Community Health Initiative (GCHI)",
+  "summary": "Ongoing hybrid support developing GCHI’s MEAL framework and setting up its database, data collection and reporting processes.",
+  "year": "February 2026–Present",
+  "status": "Ongoing",
+  "theme": "MEAL systems",
+  "skills": [
+    "M&E frameworks"
+  ],
+  "visual": "programme",
+  "role": "M&E / MEAL Systems Support (Hybrid)",
+  "context": "Gen Community Health Initiative (GCHI) · In-person and remote",
+  "detail": "Since February 2026, I have supported GCHI through in-person and remote work, developing its MEAL framework and setting up its data management system, including the database, data collection and reporting processes. This work continues alongside my programme-based role at Laminopabo CYDC.",
+  "takeaways": [
+    "Develop GCHI’s MEAL framework.",
+    "Set up the database, data collection and reporting processes.",
+    "Combine in-person and remote support."
+  ],
+  "evidence": "Scope and dates supplied by Ronald Obal. This summary describes ongoing work; no confidential organisational records or numerical results are published."
+},
+{
+  "id": "mimha-mearl-framework",
+  "type": "M&E work",
+  "title": "MIMHA MEARL framework consultancy",
+  "fullTitle": "MEARL framework development for Mouthpiece Initiative for Mental Health & Addiction (MIMHA)",
+  "summary": "Completed six-month consultancy to develop MIMHA’s MEARL framework, October 2025–March 2026.",
+  "year": "October 2025–March 2026",
+  "status": "Completed consultancy",
+  "theme": "MEARL framework",
+  "skills": [
+    "M&E frameworks"
+  ],
+  "visual": "programme",
+  "role": "MEARL Framework Development Consultant",
+  "context": "Mouthpiece Initiative for Mental Health & Addiction (MIMHA)",
+  "detail": "This completed six-month consultancy focused on developing MIMHA’s MEARL framework. It ran alongside my ongoing role at Laminopabo CYDC and overlapped with the start of GCHI support in February 2026.",
+  "takeaways": [
+    "Developed MIMHA’s MEARL framework.",
+    "Six-month consultancy completed in March 2026."
+  ],
+  "evidence": "Consultancy scope and dates supplied by Ronald Obal. No confidential framework documents or organisational data are published."
+},
   {
     id:'kisoro-immunization',type:'Publication',title:'Immunization non-completion at Kisoro General Hospital',fullTitle:'Prevalence and factors associated with immunization non-completion among children aged 12–23 months at Kisoro General Hospital, Uganda: a cross-sectional study',
     summary:'Published in BMC Public Health on 12 August 2026. A cross-sectional study of immunization non-completion among children aged 12–23 months in Uganda.',
